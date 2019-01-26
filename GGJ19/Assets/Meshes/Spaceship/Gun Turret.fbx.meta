@@ -1,16 +1,26 @@
 fileFormatVersion: 2
-guid: e33a8cc9e61319d46b9dd15997927700
+guid: a6e1144a82957a74abf371fa3bf0f39c
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Harpoon_Point 1
-    400000: //RootNode
-    400002: Harpoon_Point 1
+    100000: Barrel_1
+    100002: Barrel_2
+    100004: //RootNode
+    100006: Gun_Base
+    400000: Barrel_1
+    400002: Barrel_2
+    400004: //RootNode
+    400006: Gun_Base
     2100000: lambert1
-    2300000: Harpoon_Point 1
-    3300000: Harpoon_Point 1
-    4300000: Harpoon_Point
+    2300000: Barrel_1
+    2300002: Barrel_2
+    2300004: Gun_Base
+    3300000: Barrel_1
+    3300002: Barrel_2
+    3300004: Gun_Base
+    4300000: Gun_Base
+    4300002: Barrel_1
+    4300004: Barrel_2
   externalObjects: {}
   materials:
     importMaterials: 1
