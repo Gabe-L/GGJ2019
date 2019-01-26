@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     GameObject asteroidPrefab;
+    Spaceship spaceship;
+
 
     private void Awake()
     {
-        asteroidPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Medium");
+        asteroidPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Large");
+        spaceship = FindObjectOfType<Spaceship>();
     }
 
     // Use this for initialization
@@ -28,16 +31,25 @@ public class GameManager : MonoBehaviour
         }
 
         // Spawn asteroid
-        if (Random.Range(0, 100) < 2)
+        const float maxAsteroidCount = 30;
+        if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount && 
+            Random.Range(0, 100) < 3)
         {
             SpawnAsteroid();
+        }
+
+        // Remove asteroids out of view
+        foreach (var asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
+        {
+            if (Vector3.Distance(asteroid.transform.position, Vector3.zero) > 50)
+            {
+                Destroy(asteroid);
+            }
         }
     }
 
     private void SpawnAsteroid()
     {
-        
-
         Vector3 start = RandomPosition(16, 20);
         Vector3 target = RandomPosition(3, 15);
         Vector3 direction = (target - start).normalized;
