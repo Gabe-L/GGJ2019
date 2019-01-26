@@ -103,6 +103,7 @@ public class RopeScript : MonoBehaviour
 
     public void SlowJoints()
     {
+        Debug.Log("Slowing");
         foreach (var joint in ropeJoints)
         {
             joint.GetComponent<Rigidbody>().velocity /= 4;
