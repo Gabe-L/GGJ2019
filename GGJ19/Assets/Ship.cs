@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hook : MonoBehaviour {
+public class Ship : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -16,11 +16,9 @@ public class Hook : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.rigidbody) {
-            gameObject.AddComponent<FixedJoint>();
-            GetComponent<FixedJoint>().connectedBody = collision.rigidbody;
-            FindObjectOfType<RopeScript>().SlowJoints();
+        if(collision.gameObject.GetComponent<CharacterJoint>())
+        {
+            FindObjectOfType<RopeScript>().RemoveJoint();
         }
     }
-
 }
