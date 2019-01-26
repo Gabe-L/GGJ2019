@@ -1,16 +1,14 @@
 fileFormatVersion: 2
-guid: e33a8cc9e61319d46b9dd15997927700
+guid: 213ac0e0fe092d242b6b1d14cd0101ee
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Harpoon_Point 1
     400000: //RootNode
-    400002: Harpoon_Point 1
     2100000: lambert1
-    2300000: Harpoon_Point 1
-    3300000: Harpoon_Point 1
-    4300000: Harpoon_Point
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pCube2
   externalObjects: {}
   materials:
     importMaterials: 1
