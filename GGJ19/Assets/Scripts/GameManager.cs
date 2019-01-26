@@ -36,23 +36,25 @@ public class GameManager : MonoBehaviour
 
     private void SpawnAsteroid()
     {
+        
+
         Vector3 start = RandomPosition(16, 20);
         Vector3 target = RandomPosition(3, 15);
         Vector3 direction = (target - start).normalized;
         float speed = Random.Range(0.3f, 1.0f);
         Vector3 velocity = direction * speed;
-        float avRange = 0.5f;
+        float avRange = 1.0f;
         var angularVelocity = new Vector3(
-            Random.Range(-avRange, avRange),
-            Random.Range(-avRange, avRange),
-            Random.Range(-avRange, avRange)
+            avRange - Random.Range(-avRange, avRange),
+            avRange = Random.Range(-avRange, avRange),
+            avRange = Random.Range(-avRange, avRange)
         );
 
         var asteroid = Instantiate<GameObject>(asteroidPrefab, start, Quaternion.identity);
-
         var asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
+
         asteroidRigidbody.velocity = velocity;
-        asteroidRigidbody.angularVelocity = angularVelocity;
+        asteroidRigidbody.angularVelocity = angularVelocity * asteroidRigidbody.mass;
     }
 
     private Vector3 RandomPosition(float minRange, float maxRange)
