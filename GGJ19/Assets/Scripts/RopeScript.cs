@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RopeScript : MonoBehaviour {
+public class RopeScript : MonoBehaviour
+{
 
     public int ropeLength = 10;
     public float range = 20.0f;
@@ -12,16 +13,19 @@ public class RopeScript : MonoBehaviour {
     [SerializeField] private GameObject RopeSegmentPrefab;
     private float timeTrack = 0.0f;
     private bool ropeFinished = false;
+    private bool reel = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         ropeJoints = new List<GameObject>();
         CreateRope();
         ropeJoints[0].GetComponent<Rigidbody>().AddForce(Vector3.left * fireForce, ForceMode.Impulse);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         int track = 0;
 
         foreach (var joint in ropeJoints)
@@ -32,20 +36,28 @@ public class RopeScript : MonoBehaviour {
             joint.GetComponent<LineRenderer>().SetPosition(1, ropeJoints[track].transform.position);
         }
 
-        if (!ropeFinished)
+        float distToFirstJoint = Vector3.Distance(ropeJoints[0].transform.position, transform.position);
+        //if (distToFirstJoint < range)
         {
-            float distToFirstJoint = Vector3.Distance(ropeJoints[0].transform.position, transform.position);
-
-            if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) >= 2.0f && distToFirstJoint < range)
+            if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) >= 2.0f)
             {
                 AddRopeSegment(ropeJoints[ropeJoints.Count - 1]);
-                ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().AddForce(Vector3.left * fireForce, ForceMode.Impulse);
+
+                if (!ropeFinished)
+                {
+                    ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().AddForce(Vector3.left * fireForce, ForceMode.Impulse);
+                }
             }
-            else if (distToFirstJoint >= range)
+            else if (ropeJoints[0].GetComponent<FixedJoint>())
             {
                 //ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().isKinematic = true;
                 ropeFinished = true;
-            } 
+            }
+        }
+
+        if (ropeFinished)
+        {
+            ropeJoints[ropeJoints.Count - 1].transform.position = Vector3.MoveTowards(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position, 1.0f);
         }
 
         //if (timeTrack >= 1.0f)
@@ -54,7 +66,7 @@ public class RopeScript : MonoBehaviour {
         //    timeTrack = 0.0f;
         //}
         timeTrack += Time.deltaTime;
-	}
+    }
 
     void CreateRope()
     {
@@ -80,6 +92,14 @@ public class RopeScript : MonoBehaviour {
         }
     }
 
+    public void SlowJoints()
+    {
+        foreach (var joint in ropeJoints)
+        {
+            joint.GetComponent<Rigidbody>().velocity /= 4;
+        }
+    }
+
     void AddRopeSegment(GameObject previousSegment)
     {
         GameObject newRopeJoint = Instantiate(RopeSegmentPrefab);
@@ -89,8 +109,17 @@ public class RopeScript : MonoBehaviour {
         newRopeJoint.GetComponent<CharacterJoint>().connectedBody = previousSegment.GetComponent<Rigidbody>();
         newRopeJoint.GetComponent<LineRenderer>().SetPosition(0, newRopeJoint.transform.position);
         newRopeJoint.GetComponent<LineRenderer>().SetPosition(1, previousSegment.transform.position);
-        
+
         ropeJoints.Add(newRopeJoint);
+    }
+
+    public void RemoveJoint()
+    {
+        GameObject deleteRope = ropeJoints[ropeJoints.Count - 1];
+        ropeJoints.Remove(ropeJoints[ropeJoints.Count - 1]);
+
+        Destroy(deleteRope);
+
     }
 
 }
