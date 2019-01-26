@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         }
         else if (hasGunTurretAccess)
         {
-
+            FindObjectOfType<fire>().UpdateInput();
         }
         else
         {
