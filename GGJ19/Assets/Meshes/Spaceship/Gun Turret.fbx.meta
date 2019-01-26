@@ -5,22 +5,28 @@ ModelImporter:
   fileIDToRecycleName:
     100000: Barrel_1
     100002: Barrel_2
-    100004: //RootNode
-    100006: Gun_Base
+    100004: Barrel_Base
+    100006: //RootNode
+    100008: Gun_Mount
     400000: Barrel_1
     400002: Barrel_2
-    400004: //RootNode
-    400006: Gun_Base
-    2100000: lambert1
+    400004: Barrel_Base
+    400006: //RootNode
+    400008: Gun_Mount
+    2100000: lambert2
+    2100002: lambert1
     2300000: Barrel_1
     2300002: Barrel_2
-    2300004: Gun_Base
+    2300004: Barrel_Base
+    2300006: Gun_Mount
     3300000: Barrel_1
     3300002: Barrel_2
-    3300004: Gun_Base
-    4300000: Gun_Base
-    4300002: Barrel_1
-    4300004: Barrel_2
+    3300004: Barrel_Base
+    3300006: Gun_Mount
+    4300000: Barrel_Base
+    4300002: Gun_Mount
+    4300004: Barrel_1
+    4300006: Barrel_2
   externalObjects: {}
   materials:
     importMaterials: 1

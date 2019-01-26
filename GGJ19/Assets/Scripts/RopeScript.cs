@@ -74,11 +74,29 @@ public class RopeScript : MonoBehaviour
     {
         if (circle && rightStick.magnitude > 0.2f)
         {
-            Debug.Log("Rotating");
-            if ((shipLightOne.transform.rotation.y < 40.0f && rightStick.x > 0) || (shipLightOne.transform.rotation.y > -40.0f && rightStick.x < 0))
+            //if ((shipLightOne.transform.rotation.y < 40.0f && rightStick.x > 0) || (shipLightOne.transform.rotation.y > -40.0f && rightStick.x < 0))
             {
-                shipLightOne.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
-                shipLightTwo.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
+                GameObject ship = GameObject.Find("SHIPCENTRE");
+
+                float oldYPos = shipLightOne.transform.position.y;
+
+                shipLightOne.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+                Vector3 shipLightPosOne = shipLightOne.transform.position;
+                shipLightPosOne = ship.transform.position;
+                shipLightPosOne += shipLightOne.transform.forward * 3;
+                shipLightPosOne.y = oldYPos;
+                shipLightOne.transform.position = shipLightPosOne;
+
+                shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+                Vector3 shipLightPosTwo = shipLightTwo.transform.position;
+                shipLightPosTwo = ship.transform.position;
+                shipLightPosTwo += shipLightTwo.transform.forward * 3;
+                shipLightPosTwo.y = oldYPos;
+                shipLightTwo.transform.position = shipLightPosTwo;
+
+                //shipLightTwo.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
+                //shipLightTwo.transform.position = ship.transform.position;
+                //shipLightTwo.transform.position += shipLightTwo.transform.forward * 3;
             }
         }
 
