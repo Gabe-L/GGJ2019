@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour {
 
+    private bool hooked = false;
+    Rigidbody hookedBody;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,14 +14,21 @@ public class Hook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (hooked)
+        {
+            if (!GetComponent<FixedJoint>().connectedBody)
+            {
+                GetComponent<FixedJoint>().connectedBody = hookedBody;
+            }
+        }
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.rigidbody) {
             gameObject.AddComponent<FixedJoint>();
-            GetComponent<FixedJoint>().connectedBody = collision.rigidbody;
+            hookedBody = collision.rigidbody;
+            GetComponent<FixedJoint>().connectedBody = hookedBody;
             FindObjectOfType<RopeScript>().SlowJoints();
         }
     }
