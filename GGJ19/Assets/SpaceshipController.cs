@@ -17,7 +17,7 @@ public class SpaceshipController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        var newRotation = transform.rotation;
+        var newRotation = transform.localRotation;
 
         if (Input.GetKey(KeyCode.A))
         {
