@@ -34,6 +34,8 @@ public class SpaceshipController : MonoBehaviour
     {
         var newRotation = transform.rotation;
 
+        newRotation *= Quaternion.Euler(0, Time.deltaTime * -turningSpeed * Input.GetAxis("LeftStickXAxis"), 0);
+
         if (Input.GetKey(KeyCode.A))
         {
             newRotation *= Quaternion.Euler(0, Time.deltaTime * -turningSpeed, 0);
@@ -83,6 +85,14 @@ public class SpaceshipController : MonoBehaviour
         output.z = radius * Mathf.Sin(Random.Range(-360, 360));
 
         return output;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<CharacterJoint>())
+        {
+            FindObjectOfType<RopeScript>().RemoveJoint();
+        }
     }
 
 }
