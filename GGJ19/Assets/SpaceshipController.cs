@@ -8,21 +8,6 @@ public class SpaceshipController : MonoBehaviour
     [Range(0, 360)] public float turningSpeed = 200.0f;
     GameObject asteroidPrefab;
 
-    public Vector3 debugStartPosition = Vector3.zero;
-    public Vector3 debugEndPosition = Vector3.zero;
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(debugStartPosition, 0.5f);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(debugEndPosition, 0.5f);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(debugStartPosition, debugEndPosition);
-    }
-
     // Use this for initialization
     private void Start()
     {
@@ -47,7 +32,7 @@ public class SpaceshipController : MonoBehaviour
         }
 
         // Spawn asteroid
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Random.Range(0, 100) < 2)
         {
             SpawnAsteroid();
         }
@@ -66,9 +51,6 @@ public class SpaceshipController : MonoBehaviour
         float speed = Random.Range(0.1f, 0.3f);
         Vector3 velocity = (target - start) * speed;
         asteroid.GetComponent<Rigidbody>().velocity = velocity;
-
-        debugStartPosition = start;
-        debugEndPosition = target;
     }
 
     private Vector3 RandomPosition(float minRange, float maxRange)
