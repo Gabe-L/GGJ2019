@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpaceshipController : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class SpaceshipController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        // Reset scene
+        if (Input.GetButtonDown("Option"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         var newRotation = transform.localRotation;
 
         newRotation *= Quaternion.Euler(0, Time.deltaTime * -turningSpeed * Input.GetAxis("LeftStickXAxis"), 0);
