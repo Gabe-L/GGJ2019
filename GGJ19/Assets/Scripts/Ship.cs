@@ -20,5 +20,9 @@ public class Ship : MonoBehaviour {
         {
             FindObjectOfType<RopeScript>().RemoveJoint();
         }
+        else
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
