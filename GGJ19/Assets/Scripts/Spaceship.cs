@@ -16,8 +16,7 @@ public class Spaceship : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Rotate(Time.deltaTime * -turningSpeed * Input.GetAxis("LeftStickXAxis"));
-
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,10 +33,6 @@ public class Spaceship : MonoBehaviour
     /// <param name="deltaAngle">in degrees</param>
     public void Rotate(float deltaAngle)
     {
-        //var newRotation = transform.localRotation;
-        //newRotation *= Quaternion.Euler(0, deltaAngle, 0);
-        //transform.rotation = newRotation;
-
         var newRotation = transform.localRotation;
 
         newRotation *= Quaternion.Euler(0, Time.deltaTime * -turningSpeed * Input.GetAxis("LeftStickXAxis"), 0);
