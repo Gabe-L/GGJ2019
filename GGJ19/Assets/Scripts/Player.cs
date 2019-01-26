@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public enum AccessedObject
+    {
+        ControlPanel,
+        Harpoon,
+        GunTurret,
+        Nothing
+    }
+
     Spaceship spaceship;
-    [HideInInspector] public bool hasControlPanelAccess = false;
-    [HideInInspector] public bool hasHarpoonAccess = false;
-    [HideInInspector] public bool hasGunTurretAccess = false;
+    AccessedObject accessing = AccessedObject.Nothing;
+    Controllable controlledObject = null;
 
     public float speed = 0.005f;
 
@@ -28,27 +35,39 @@ public class Player : MonoBehaviour
         // Exit controlled object
         if (Input.GetButtonDown("Triangle"))
         {
-            hasControlPanelAccess = false;
-            hasHarpoonAccess = false;
-            hasGunTurretAccess = false;
+            accessing = AccessedObject.Nothing;
+
+            if (controlledObject)
+            {
+                // Unparent from controllable
+                transform.SetParent(controlledObject.transform.parent);
+
+                controlledObject.isControlled = false;
+                Debug.Log("Stopped controlling " + controlledObject.name);
+                controlledObject = null;
+            }
         }
 
-        if (hasControlPanelAccess)
+        switch (accessing)
         {
-            spaceship.Rotate(Time.deltaTime * Input.GetAxis("LeftStickXAxis"));
-        }
-        else if (hasHarpoonAccess)
-        {
-            FindObjectOfType<RopeScript>().UpdateInput();
-        }
-        else if (hasGunTurretAccess)
-        {
+            case AccessedObject.ControlPanel:
+                spaceship.Rotate(Time.deltaTime * Input.GetAxis("LeftStickXAxis"));
+                break;
 
-        }
-        else
-        {
-            // Run around like a fool
-            GetComponent<CharacterController>().Move(GetRelativeLeftStickDirection() * speed);
+            case AccessedObject.Harpoon:
+                break;
+
+            case AccessedObject.GunTurret:
+                break;
+
+            case AccessedObject.Nothing:
+                // Run around like a fool
+                GetComponent<CharacterController>().Move(GetRelativeLeftStickDirection() * speed);
+                break;
+
+            default:
+                // DON'T PUT ANYTHING HERE, WILL NEVER RUN
+                break;
         }
 
     }
@@ -74,61 +93,62 @@ public class Player : MonoBehaviour
     {
         if (other.GetComponent<Controllable>())
         {
-            var controllable = other.GetComponent<Controllable>();
+            controlledObject = other.GetComponent<Controllable>();
 
-            if (other.name == "Control Panel")
+            if (!controlledObject.isControlled)
             {
-                controllable.isControlled = true;
-                hasControlPanelAccess = true;
-                Debug.Log(name + " gained access to the Control Panel");
+                // Set as parent to stick to it
+                transform.SetParent(controlledObject.transform);
+                var newPosition = controlledObject.transform.position;
+                newPosition.y = transform.position.y;
+                transform.position = newPosition;
+
+                // Start controlling it
+                controlledObject.isControlled = true;
+
+                if (other.name == "Control Panel")
+                {
+                    accessing = AccessedObject.ControlPanel;
+                }
+                else if (other.name == "Harpoon")
+                {
+                    accessing = AccessedObject.Harpoon;
+                }
+                else if (other.name == "Gun Turret")
+                {
+                    accessing = AccessedObject.GunTurret;
+                }
+
+                Debug.Log(name + " gained access to the " + this.controlledObject.name);
             }
-            else if (other.name == "Harpoon")
+            else
             {
-                controllable.isControlled = true;
-                hasHarpoonAccess = true;
-                Debug.Log(name + " gained access to the Harpoon");
-            }
-            else if (other.name == "Gun Turret")
-            {
-                controllable.isControlled = true;
-                hasGunTurretAccess = true;
-                Debug.Log(name + " gained access to the Gun Turret");
+                controlledObject = null;
             }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.name == "Control Panel")
-        {
-            
-        }
+        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Controllable>())
-        {
-            var controllable = other.GetComponent<Controllable>();
+        var controllable = other.GetComponent<Controllable>();
 
-            if (other.name == "Control Panel")
+        // If by accident the player is knocked off the controllable, stop controlling it
+        if (controllable && controlledObject == controllable && controllable.isControlled)
+        {
+            if (controlledObject)
             {
-                controllable.isControlled = false;
-                hasControlPanelAccess = false;
-                Debug.Log(name + " lost access to the Control Panel");
+                // Unparent from controllable
+                transform.SetParent(controlledObject.transform.parent);
+                controlledObject = null; 
             }
-            else if (other.name == "Harpoon")
-            {
-                controllable.isControlled = false;
-                hasHarpoonAccess = false;
-                Debug.Log(name + " lost access to the Harpoon");
-            }
-            else if (other.name == "Gun Turret")
-            {
-                controllable.isControlled = false;
-                hasGunTurretAccess = false;
-                Debug.Log(name + " lost access to the Gun Turret");
-            } 
+
+            controllable.isControlled = false;
+            accessing = AccessedObject.Nothing;
         }
     }
 }
