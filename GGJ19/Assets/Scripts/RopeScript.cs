@@ -77,6 +77,8 @@ public class RopeScript : MonoBehaviour
             {
                 track++;
                 if (track == ropeJoints.Count) { break; }
+
+                Debug.Log(Vector3.Distance(joint.transform.position, ropeJoints[track].transform.position));
                 joint.GetComponent<LineRenderer>().SetPosition(0, joint.transform.position);
                 joint.GetComponent<LineRenderer>().SetPosition(1, ropeJoints[track].transform.position);
             }
