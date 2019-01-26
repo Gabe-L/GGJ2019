@@ -37,7 +37,7 @@ public class RopeScript : MonoBehaviour
         }
 
         float distToFirstJoint = Vector3.Distance(ropeJoints[0].transform.position, transform.position);
-        //if (distToFirstJoint < range)
+        if (distToFirstJoint < range)
         {
             if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) >= 2.0f)
             {
@@ -54,10 +54,19 @@ public class RopeScript : MonoBehaviour
                 ropeFinished = true;
             }
         }
+        else
+        {
+            ropeFinished = true;
+            SlowJoints();
+        }
 
         if (ropeFinished)
         {
             ropeJoints[ropeJoints.Count - 1].transform.position = Vector3.MoveTowards(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position, 1.0f);
+            if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) < 0.2f)
+            {
+                RemoveJoint();
+            }
         }
 
         //if (timeTrack >= 1.0f)
