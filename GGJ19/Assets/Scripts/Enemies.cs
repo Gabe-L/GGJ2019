@@ -27,7 +27,6 @@ public class Enemies : MonoBehaviour
     {
         
         Instantiate(Enemy, transform.position, Quaternion.identity);
-        transform.rotation = Quaternion.Euler(new Vector3(0, -90, -90));
         Debug.Log("Enemy has spawned");
 
     } 
