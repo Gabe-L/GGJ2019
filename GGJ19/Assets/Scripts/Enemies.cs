@@ -16,12 +16,8 @@ public class Enemies : MonoBehaviour
             SpawnTimer = 0f;
             repeatTime = Random.Range(10f, 30f);
         }
-
     }
-
-
-
-
+        
     private void Start()
     {
        // InvokeRepeating("Enemy", 10f, repeatTime);
@@ -29,15 +25,13 @@ public class Enemies : MonoBehaviour
 
     void Spawn()
     {
-        Debug.Log("Enemy has spawned");
-        Instantiate(Enemy, transform.position, Quaternion.identity);
         
-    }
+        Instantiate(Enemy, transform.position, Quaternion.identity);
+        transform.rotation = Quaternion.Euler(new Vector3(0, -90, -90));
+        Debug.Log("Enemy has spawned");
 
-
-
-
-
+    } 
+    
 }
 
     
