@@ -68,8 +68,13 @@ public class RopeScript : MonoBehaviour
     void Update()
     {
         ropeOut = ropeJoints.Count > 0 ? true : false;
-        
-        turret.transform.position = transform.position + new Vector3(leftStick.x, 0,-leftStick.y);
+
+        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
+        GameObject hpp = GameObject.Find("HarpoonParent");
+        hpp.transform.rotation = Quaternion.identity;
+        hpp.transform.Rotate(Vector3.up, stickAngle + 90);
+
+        //turret.transform.position = transform.position + new Vector3(leftStick.x, 0,-leftStick.y);
 
         if (!ropeOut)
         {
@@ -87,8 +92,7 @@ public class RopeScript : MonoBehaviour
 
             point.transform.position = ropeJoints[0].transform.position;
             if (!ropeJoints[0].GetComponent<FixedJoint>() && ropeJoints.Count > 1) {
-                point.transform.forward = ((ropeJoints[0].transform.position - ropeJoints[1].transform.position).normalized - Vector3.up).normalized;
-
+                point.transform.forward = ((ropeJoints[0].transform.position - ropeJoints[1].transform.position).normalized).normalized;
             }
 
 
@@ -174,7 +178,7 @@ public class RopeScript : MonoBehaviour
         newRopeJoint.transform.position = transform.position;
         newRopeJoint.AddComponent<Hook>();
         newRopeJoint.GetComponent<Renderer>().enabled = false;
-        point.GetComponent<Renderer>().enabled = true;
+        point.transform.GetChild(0).GetComponent<Renderer>().enabled = true;
 
         ropeJoints.Add(newRopeJoint);
     }
@@ -184,7 +188,7 @@ public class RopeScript : MonoBehaviour
         if (ropeSlowed) { return; }
         foreach (var joint in ropeJoints)
         {
-            joint.GetComponent<Rigidbody>().velocity /= 8 * (ropeJoints.Count / 10);
+            joint.GetComponent<Rigidbody>().velocity /= 8 * (ropeJoints.Count / 5);
             //joint.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         ropeSlowed = true;
@@ -222,7 +226,7 @@ public class RopeScript : MonoBehaviour
             reel = false;
             ropeFinished = false;
             ropeSlowed = false;
-            point.GetComponent<Renderer>().enabled = false;
+            point.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
         }
 
     }
