@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4646037031346814}
   - component: {fileID: 33750215492143696}
   - component: {fileID: 23034121113989512}
+  - component: {fileID: 54850588686418546}
+  - component: {fileID: 64155006921734668}
   m_Layer: 0
   m_Name: Asteroid Small
   m_TagString: Untagged
@@ -35,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1859211465298544}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.1134963, y: 0.6099949, z: 8.06782}
   m_LocalScale: {x: 0.003, y: 0.0035, z: 0.003}
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,4 +84,33 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1859211465298544}
+  m_Mesh: {fileID: 4300000, guid: 0d15e4392314add4dac2c366e1dd8120, type: 3}
+--- !u!54 &54850588686418546
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859211465298544}
+  serializedVersion: 2
+  m_Mass: 0.02
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
+--- !u!64 &64155006921734668
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859211465298544}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 0d15e4392314add4dac2c366e1dd8120, type: 3}
