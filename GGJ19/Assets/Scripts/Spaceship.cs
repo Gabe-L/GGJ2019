@@ -23,7 +23,7 @@ public class Spaceship : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<CharacterJoint>())
         {
-            FindObjectOfType<RopeScript>().RemoveJoint();
+            //FindObjectOfType<RopeScript>().RemoveJoint();
         }
     }
 

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         // Spawn asteroid
         const float maxAsteroidCount = 30;
         if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount && 
-            Random.Range(0, 100) < 3)
+            Random.Range(0, 200) < 3)
         {
             SpawnAsteroid();
         }

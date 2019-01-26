@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         }
         else if (hasHarpoonAccess)
         {
-
+            FindObjectOfType<RopeScript>().UpdateInput();
         }
         else if (hasGunTurretAccess)
         {
