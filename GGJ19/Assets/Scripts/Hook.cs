@@ -25,7 +25,7 @@ public class Hook : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.rigidbody) {
+        if (collision.rigidbody && !FindObjectOfType<RopeScript>().ropeJoints.Contains(collision.gameObject)) {
             gameObject.AddComponent<FixedJoint>();
             hookedBody = collision.rigidbody;
             GetComponent<FixedJoint>().connectedBody = hookedBody;
