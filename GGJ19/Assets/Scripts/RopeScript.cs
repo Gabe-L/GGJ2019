@@ -13,6 +13,8 @@ public class RopeScript : MonoBehaviour
     public List<GameObject> ropeJoints;
     [SerializeField] private GameObject RopeSegmentPrefab;
     [SerializeField] private GameObject pointPrefab;
+    [SerializeField] private Light shipLightOne;
+    [SerializeField] private Light shipLightTwo;
     private float timeTrack = 0.0f;
     private bool ropeFinished = false;
     private bool reel = false;
@@ -30,6 +32,7 @@ public class RopeScript : MonoBehaviour
 
     bool cross = false;
     bool square = false;
+    bool circle = false;
 
     // Use this for initialization
     void Start()
@@ -62,11 +65,23 @@ public class RopeScript : MonoBehaviour
         rightStick.x = Input.GetAxis("RightStickXAxis");
         rightStick.y = Input.GetAxis("RightStickYAxis");
 
+        circle = Input.GetButton("Circle");
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (circle && rightStick.magnitude > 0.2f)
+        {
+            Debug.Log("Rotating");
+            if ((shipLightOne.transform.rotation.y < 40.0f && rightStick.x > 0) || (shipLightOne.transform.rotation.y > -40.0f && rightStick.x < 0))
+            {
+                shipLightOne.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
+                shipLightTwo.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
+            }
+        }
+
         ropeOut = ropeJoints.Count > 0 ? true : false;
 
         float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;

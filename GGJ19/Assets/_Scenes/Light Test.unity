@@ -855,6 +855,8 @@ MonoBehaviour:
     type: 2}
   pointPrefab: {fileID: 1084700769588488, guid: de216a80265dce74e959fff77672127f,
     type: 2}
+  shipLightOne: {fileID: 1718758618}
+  shipLightTwo: {fileID: 862006665}
 --- !u!1 &1025394671
 GameObject:
   m_ObjectHideFlags: 0
