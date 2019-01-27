@@ -17,7 +17,7 @@ public class Fire : MonoBehaviour {
     bool L1orR1 = false;
     bool left = false;
     Vector3 neutralPosition;
-    //private GameObject muzzleLight;
+    private GameObject muzzleLight;
     const float projectileLifeTime = 5;
 
     private void Awake()
@@ -30,9 +30,9 @@ public class Fire : MonoBehaviour {
     // Use this for initialization
     void Start () {
         neutralPosition = transform.position;
-        //muzzleLight = GameObject.Find("Muzzle Light");
-        //muzzleLight.GetComponent<Light>().intensity = 0;
-	}
+        muzzleLight = GameObject.Find("Muzzle Light");
+        muzzleLight.GetComponent<Light>().intensity = 0;
+    }
 	
     public void UpdateInput()
     {
@@ -66,7 +66,7 @@ public class Fire : MonoBehaviour {
                 spawnPos = rightBarrelEnd.position;
                 rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
             }
-            //muzzleLight.GetComponent<Animator>().Play("Muzzle Flash");
+            muzzleLight.GetComponent<Animator>().Play("Muzzle Flash");
 
             left = !left;
 
