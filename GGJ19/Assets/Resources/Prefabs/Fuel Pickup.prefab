@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4952470201556760}
   - component: {fileID: 33620305892275470}
   - component: {fileID: 23598666662683326}
+  - component: {fileID: 114726841577912966}
   m_Layer: 0
   m_Name: Fuel Pickup
   m_TagString: Untagged
@@ -95,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1422717171805398}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.1886, y: -0.47253, z: 4.689}
+  m_LocalPosition: {x: -2.25, y: 0, z: -7.64}
   m_LocalScale: {x: 0.007645334, y: 0.010844782, z: 0.007645334}
   m_Children:
   - {fileID: 4381934036520590}
@@ -247,3 +248,16 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114726841577912966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422717171805398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482887059b9e5be4881d26b0c27c9133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  amount: 15

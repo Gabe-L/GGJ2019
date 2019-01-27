@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4506531820461126}
   - component: {fileID: 33037424361219008}
   - component: {fileID: 23053103729229730}
+  - component: {fileID: 114458314825272120}
   m_Layer: 0
   m_Name: Health Pickup
   m_TagString: Untagged
@@ -69,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1388661594565878}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.272, y: -1.0233, z: 6.3327}
+  m_LocalPosition: {x: 4.52, y: 0, z: -8.34}
   m_LocalScale: {x: 0.021181975, y: 0.017702235, z: 0.021181975}
   m_Children:
   - {fileID: 4941488469950122}
@@ -247,3 +248,16 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114458314825272120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388661594565878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482887059b9e5be4881d26b0c27c9133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  amount: 10
