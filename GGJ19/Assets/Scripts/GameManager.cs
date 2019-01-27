@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
 
     const float maxAsteroidCount = 4;
     const int bigAsteroidChance = 20;
-    const int mediumAsteroidChance = bigAsteroidChance + 50;
-    const int smallAsteroidChance = mediumAsteroidChance + 100;
+    const int mediumAsteroidChance = bigAsteroidChance + 30;
+    const int smallAsteroidChance = mediumAsteroidChance + 50;
     [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
 
     private void Awake()

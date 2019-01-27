@@ -14,6 +14,7 @@ public class fire : MonoBehaviour {
     bool cross = false;
     bool left = false;
     Vector3 neutralPosition;
+    const float projectileLifeTime = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +58,9 @@ public class fire : MonoBehaviour {
             GameObject proj = Instantiate(projectile, spawnPos, Quaternion.identity);
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
+
+            
+            Destroy(proj, projectileLifeTime);
 
             //var lsf = new Vector3(leftStick.x, 0, leftStick.y);
             //transform.position = neutralPosition + new Vector3(leftStick.x, 0, leftStick.y) * 5;
