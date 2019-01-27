@@ -37,17 +37,22 @@ public class fire : MonoBehaviour {
         if (cross && leftStick.magnitude > 0.2f && fireTimer <= 0.0f)
         {
             Vector3 spawnPos;
-            spawnPos = left ? leftBarrel.position : rightBarrel.position;
-            left = left ? false : true;
+            if (left)
+            {
+                spawnPos = leftBarrel.position;
+                leftBarrel.GetComponent<Animator>().Play("GunBarrel - Left");
+            }
+            else
+            {
+                spawnPos = rightBarrel.position;
+                rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
+            }
+
+            left = !left;
 
             GameObject proj = Instantiate(projectile, spawnPos, Quaternion.identity);
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
         }
 	}
-
-    //IEnumerator Recoil(Transform Barrel)
-    //{
-
-    //}
 }
