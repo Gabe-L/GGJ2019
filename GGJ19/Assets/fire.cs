@@ -13,15 +13,18 @@ public class fire : MonoBehaviour {
     private float fireTimer = 1.0f;
     bool cross = false;
     bool left = false;
+    Vector3 neutralPosition;
 
 	// Use this for initialization
 	void Start () {
+        neutralPosition = transform.position;
 	}
 	
     public void UpdateInput()
     {
         leftStick.x = Input.GetAxis("LeftStickXAxis");
         leftStick.y = Input.GetAxis("LeftStickYAxis");
+
 
         cross = Input.GetButtonDown("Cross");
     }
@@ -53,6 +56,13 @@ public class fire : MonoBehaviour {
             GameObject proj = Instantiate(projectile, spawnPos, Quaternion.identity);
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
+
+            //var lsf = new Vector3(leftStick.x, 0, leftStick.y);
+            //transform.position = neutralPosition + new Vector3(leftStick.x, 0, leftStick.y) * 5;
+            //transform.forward = lsf.magnitude > 0.2f ? lsf.normalized : transform.forward;
         }
+
+        transform.position = neutralPosition - transform.forward * 3;
+
 	}
 }
