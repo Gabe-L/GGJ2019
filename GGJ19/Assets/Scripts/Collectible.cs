@@ -44,8 +44,6 @@ public class Collectible : MonoBehaviour
         {
             Collect(spaceship);
             Destroy(gameObject);
-
-            Debug.Log(amount + " of " + type + " was collected.");
         }
     }
 

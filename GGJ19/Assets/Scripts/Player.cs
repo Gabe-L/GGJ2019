@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
                 transform.SetParent(controlledObject.transform.parent);
 
                 controlledObject.isControlled = false;
-                Debug.Log("Stopped controlling " + controlledObject.name);
                 controlledObject = null;
             }
         }
@@ -164,8 +163,6 @@ public class Player : MonoBehaviour
                 {
                     accessing = AccessedObject.LightAndHarpoon;
                 }
-
-                Debug.Log(name + " gained access to the " + this.controlledObject.name);
             }
             else
             {

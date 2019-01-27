@@ -39,8 +39,9 @@ GameObject:
   - component: {fileID: 33037424361219008}
   - component: {fileID: 23053103729229730}
   - component: {fileID: 114458314825272120}
-  - component: {fileID: 135932805478836068}
   - component: {fileID: 54916898962208550}
+  - component: {fileID: 135932805478836068}
+  - component: {fileID: 135923881914189676}
   m_Layer: 0
   m_Name: Health Pickup
   m_TagString: Untagged
@@ -72,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1388661594565878}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.29, y: 0, z: 0.06}
+  m_LocalPosition: {x: -15.22, y: 0, z: 11.1}
   m_LocalScale: {x: 0.021181975, y: 0.017702235, z: 0.021181975}
   m_Children:
   - {fileID: 4941488469950122}
@@ -161,7 +162,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!108 &108317169716936588
 Light:
@@ -278,6 +279,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   amount: 10
+--- !u!135 &135923881914189676
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388661594565878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 100
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135932805478836068
 SphereCollider:
   m_ObjectHideFlags: 1

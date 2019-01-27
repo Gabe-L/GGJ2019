@@ -9,14 +9,20 @@ public class GameManager : MonoBehaviour
     GameObject asteroidLargePrefab;
     GameObject asteroidMediumPrefab;
     GameObject asteroidSmallPrefab;
+    GameObject healthPickupPrefab;
+    GameObject fuelPickupPrefab;
+
     Spaceship spaceship;
 
     const float maxAsteroidCount = 4;
-    const int bigAsteroidChance = 20;
-    const int mediumAsteroidChance = bigAsteroidChance + 30;
-    const int smallAsteroidChance = mediumAsteroidChance + 50;
+
+    //const int fuelChance = 30;
+    //const int healthChance = fuelChance + 30;
+    //const int bigAsteroidChance = healthChance + 20;
+    //const int mediumAsteroidChance = bigAsteroidChance + 30;
+    //const int smallAsteroidChance = mediumAsteroidChance + 50;
     [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
-    [Range(1, 100)] public float asteroidSpawnRadius = 20;
+    [Range(1, 100)] public float spawnRadius = 20;
 
     GameObject UICanvas;
     RawImage shipHealthBar;
@@ -25,7 +31,7 @@ public class GameManager : MonoBehaviour
     
     {
         Gizmos.color = Color.magenta / 3;
-        Gizmos.DrawSphere(transform.position, asteroidSpawnRadius);
+        Gizmos.DrawSphere(transform.position, spawnRadius);
     }
 
     private void Awake()
@@ -33,7 +39,11 @@ public class GameManager : MonoBehaviour
         asteroidLargePrefab = Resources.Load<GameObject>("Prefabs/Asteroid Large");
         asteroidMediumPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Medium");
         asteroidSmallPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Small");
+        healthPickupPrefab = Resources.Load<GameObject>("Prefabs/Health Pickup");
+        fuelPickupPrefab = Resources.Load<GameObject>("Prefabs/Fuel Pickup");
+
         spaceship = FindObjectOfType<Spaceship>();
+        
         UICanvas = GameObject.Find("Canvas");
         shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
         shipFuelBar = GameObject.Find("fuelBar").GetComponent<RawImage>();
@@ -55,26 +65,48 @@ public class GameManager : MonoBehaviour
         }
 
         // Spawn asteroid
-        int maxPercent = (smallAsteroidChance / asteroidSpawnChancePercent) * 100;
-        int randomNumber = Random.Range(0, maxPercent);
-        if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount &&
-            randomNumber < bigAsteroidChance)
+        //int maxPercent = (smallAsteroidChance / asteroidSpawnChancePercent) * 100;
+        //int randomNumber = Random.Range(0, maxPercent);
+
+        float spawnPercent = 10;
+
+        // Spawn asteroids
+        if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount)
         {
-            SpawnAsteroid(asteroidLargePrefab);
+            if (Random.Range(0, 100) < spawnPercent)
+            {
+                SpawnFloatingObject(asteroidSmallPrefab);
+            }
+
+            if (Random.Range(0, 100) < spawnPercent)
+            {
+                SpawnFloatingObject(asteroidMediumPrefab);
+            }
+
+            if (Random.Range(0, 100) < spawnPercent)
+            {
+                SpawnFloatingObject(asteroidLargePrefab);
+            }
+            SpawnFloatingObject(asteroidLargePrefab);
         }
-        else if (randomNumber < mediumAsteroidChance)
+
+        spawnPercent = 5;
+
+        // Spawn collectibles
+        if (Random.Range(0, 100) < spawnPercent)
         {
-            SpawnAsteroid(asteroidMediumPrefab);
+            SpawnFloatingObject(asteroidSmallPrefab);
         }
-        else if (randomNumber < smallAsteroidChance)
+
+        if (Random.Range(0, 100) < spawnPercent)
         {
-            SpawnAsteroid(asteroidSmallPrefab);
+            SpawnFloatingObject(asteroidSmallPrefab);
         }
 
         // Remove asteroids out of view
         foreach (var asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
         {
-            if (Vector3.Distance(asteroid.transform.position, Vector3.zero) > asteroidSpawnRadius)
+            if (Vector3.Distance(asteroid.transform.position, Vector3.zero) > spawnRadius)
             {
                 Destroy(asteroid);
             }
@@ -107,12 +139,12 @@ public class GameManager : MonoBehaviour
         shipFuelBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * fuelProp, 15.0f);
     }
 
-    private void SpawnAsteroid(GameObject prefab)
+    private void SpawnFloatingObject(GameObject prefab)
     {
-        Vector3 start = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
-        Vector3 target = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
+        Vector3 start = CalculatePointOnCircumference(spawnRadius, Random.Range(0, 360));
+        Vector3 target = CalculatePointOnCircumference(spawnRadius * 0.8f, Random.Range(0, 360));
         Vector3 direction = (target - start).normalized;
-        float speed = Random.Range(0.3f, 5.0f);
+        float speed = Random.Range(0.3f, 10.0f);
         Vector3 velocity = direction * speed;
         float range = 1.0f;
         var angularVelocity = new Vector3(
