@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class fire : MonoBehaviour {
     public float travelSpeed = 10.0f;
+    public AudioClip GunFire;
 
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform leftBarrel;
@@ -31,6 +32,7 @@ public class fire : MonoBehaviour {
 
 
         cross = Input.GetButtonDown("Cross");
+
     }
 
 	// Update is called once per frame
