@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
     const int mediumAsteroidChance = bigAsteroidChance + 30;
     const int smallAsteroidChance = mediumAsteroidChance + 50;
     [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
+    [Range(1, 100)] public float asteroidSpawnRadius = 20;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta / 3;
+        Gizmos.DrawSphere(transform.position, asteroidSpawnRadius);
+    }
 
     private void Awake()
     {
@@ -59,7 +66,7 @@ public class GameManager : MonoBehaviour
         // Remove asteroids out of view
         foreach (var asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
         {
-            if (Vector3.Distance(asteroid.transform.position, Vector3.zero) > 50)
+            if (Vector3.Distance(asteroid.transform.position, Vector3.zero) > asteroidSpawnRadius)
             {
                 Destroy(asteroid);
             }
@@ -80,23 +87,40 @@ public class GameManager : MonoBehaviour
 
     private void SpawnAsteroid(GameObject prefab)
     {
-        Vector3 start = RandomPosition(16, 20);
-        Vector3 target = RandomPosition(3, 15);
+        Vector3 start = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
+        Vector3 target = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
         Vector3 direction = (target - start).normalized;
-        float speed = Random.Range(0.3f, 1.0f);
+        float speed = Random.Range(0.3f, 5.0f);
         Vector3 velocity = direction * speed;
-        float avRange = 1.0f;
+        float range = 1.0f;
         var angularVelocity = new Vector3(
-            avRange - Random.Range(-avRange, avRange),
-            avRange = Random.Range(-avRange, avRange),
-            avRange = Random.Range(-avRange, avRange)
+            range - Random.Range(-range, range),
+            range = Random.Range(-range, range),
+            range = Random.Range(-range, range)
         );
 
-        var asteroid = Instantiate<GameObject>(prefab, start, Quaternion.identity);
+        var asteroid = Instantiate(prefab, start, Quaternion.identity);
+
+        if (Vector3.Distance(asteroid.transform.position, FindObjectOfType<Spaceship>().transform.position) < 3)
+        {
+            Destroy(asteroid);
+            return;
+        }
+
         var asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
 
         asteroidRigidbody.velocity = velocity;
         asteroidRigidbody.angularVelocity = angularVelocity * asteroidRigidbody.mass;
+    }
+
+    private Vector3 CalculatePointOnCircumference(float radius, float angle)
+    {
+
+        float x = transform.position.x + radius * Mathf.Cos(angle);
+        float y = 0;
+        float z = transform.position.z + radius * Mathf.Sin(angle);
+
+        return new Vector3(x, y, z);
     }
 
     private Vector3 RandomPosition(float minRange, float maxRange)

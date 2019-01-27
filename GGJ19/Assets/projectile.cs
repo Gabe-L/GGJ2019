@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     ParticleSystem hitSparksPrefab;
     private const float minVelocity = 10.0f;
     Rigidbody rb;
+    private float constantSpeed = 0;
 
     private void Awake()
     {
@@ -24,7 +25,14 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
+        if (constantSpeed == 0)
+        {
+            constantSpeed = rb.velocity.magnitude;
+        }
+        else
+        {
+            rb.velocity = rb.velocity.normalized * constantSpeed;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,9 +45,13 @@ public class Projectile : MonoBehaviour
             ParticleSystem hitSparks = Instantiate(hitSparksPrefab, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0, 180, 0)));
 
             Destroy(hitSparks, hitSparks.startLifetime);
-            Destroy(gameObject, 0);
 
         }
+
+        float intensity = GetComponent<Light>().intensity;
+        float range = 5;
+        GetComponent<Light>().intensity = Random.Range(intensity - range, intensity + range);
+        Destroy(gameObject, 0.0001f);
     }
 
 }

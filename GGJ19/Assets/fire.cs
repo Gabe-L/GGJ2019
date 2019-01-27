@@ -59,7 +59,7 @@ public class fire : MonoBehaviour {
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
 
-            
+
             Destroy(proj, projectileLifeTime);
 
             //var lsf = new Vector3(leftStick.x, 0, leftStick.y);
