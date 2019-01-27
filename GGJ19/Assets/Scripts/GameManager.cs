@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class GameManager : MonoBehaviour
     [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
     [Range(1, 100)] public float asteroidSpawnRadius = 20;
 
+    GameObject UICanvas;
+    RawImage shipHealthBar;
     private void OnDrawGizmos()
+    
     {
         Gizmos.color = Color.magenta / 3;
         Gizmos.DrawSphere(transform.position, asteroidSpawnRadius);
@@ -29,6 +33,8 @@ public class GameManager : MonoBehaviour
         asteroidMediumPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Medium");
         asteroidSmallPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Small");
         spaceship = FindObjectOfType<Spaceship>();
+        UICanvas = GameObject.Find("Canvas");
+        shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
     }
 
     // Use this for initialization
@@ -83,6 +89,21 @@ public class GameManager : MonoBehaviour
                 player.gameObject.transform.position = newPlayerPosition;
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        float healthProp = FindObjectOfType<Spaceship>().health / FindObjectOfType<Spaceship>().maxHealth;
+        shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
+        //Rect tempHealthRect = shipHealthBar.rectTransform.rect;
+        //tempHealthRect.width = 75.0f * healthProp;
+        //shipHealthBar.rectTransform.rect = tempHealthRect;
+
     }
 
     private void SpawnAsteroid(GameObject prefab)

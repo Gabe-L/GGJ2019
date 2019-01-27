@@ -14,11 +14,14 @@ public class fire : MonoBehaviour {
     bool cross = false;
     bool left = false;
     Vector3 neutralPosition;
+    private GameObject muzzleLight;
     const float projectileLifeTime = 5;
 
 	// Use this for initialization
 	void Start () {
         neutralPosition = transform.position;
+        muzzleLight = GameObject.Find("Muzzle Light");
+        muzzleLight.GetComponent<Light>().intensity = 0;
 	}
 	
     public void UpdateInput()
@@ -34,9 +37,9 @@ public class fire : MonoBehaviour {
 	void Update () {
         fireTimer -= Time.deltaTime;
 
-        transform.rotation = Quaternion.identity;
-        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
-        transform.Rotate(Vector3.up, stickAngle);
+        //transform.rotation = Quaternion.identity;
+        //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
+        transform.Rotate(Vector3.up, -40.0f * leftStick.x * Time.deltaTime);
 
         if (cross && leftStick.magnitude > 0.2f && fireTimer <= 0.0f)
         {
@@ -51,6 +54,7 @@ public class fire : MonoBehaviour {
                 spawnPos = rightBarrel.position;
                 rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
             }
+            muzzleLight.GetComponent<Animator>().Play("Muzzle Flash");
 
             left = !left;
 
