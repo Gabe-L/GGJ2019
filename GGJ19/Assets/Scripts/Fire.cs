@@ -50,7 +50,7 @@ public class Fire : MonoBehaviour {
 
         //transform.rotation = Quaternion.identity;
         //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
-        transform.Rotate(Vector3.up, -40.0f * leftStick.x * Time.deltaTime);
+        transform.Rotate(Vector3.up, -100.0f * leftStick.x * Time.deltaTime);
 
         if (cross && fireTimer <= 0.0f)
         {
