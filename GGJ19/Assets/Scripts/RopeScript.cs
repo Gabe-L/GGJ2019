@@ -68,8 +68,8 @@ public class RopeScript : MonoBehaviour
         cross = Input.GetButtonDown("Cross");
         square = Input.GetButtonDown("Square");
 
-        leftStick.x = Input.GetAxis("LeftStickXAxis");
-        leftStick.y = Input.GetAxis("LeftStickYAxis");
+        leftStick.x = FindObjectOfType<Player>().GetRelativeLeftStickDirection().x;
+        leftStick.y = -FindObjectOfType<Player>().GetRelativeLeftStickDirection().z;
 
         rightStick.x = Input.GetAxis("RightStickXAxis");
         rightStick.y = Input.GetAxis("RightStickYAxis");
@@ -85,44 +85,34 @@ public class RopeScript : MonoBehaviour
 
         if (circle && rightStick.magnitude > 0.2f)
         {
-            //if ((shipLightOne.transform.rotation.y < 40.0f && rightStick.x > 0) || (shipLightOne.transform.rotation.y > -40.0f && rightStick.x < 0))
-            {
-                GameObject ship = GameObject.Find("SHIPCENTRE");
+            GameObject ship = GameObject.Find("Spaceship");
 
-                float oldYPos = shipLightOne.transform.position.y;
+            float oldYPos = shipLightOne.transform.position.y;
 
-                shipLightOne.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
-                Vector3 shipLightPosOne = shipLightOne.transform.position;
-                shipLightPosOne = ship.transform.position;
-                shipLightPosOne += shipLightOne.transform.forward * 3;
-                shipLightPosOne.y = oldYPos;
-                shipLightOne.transform.position = shipLightPosOne;
+            shipLightOne.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+            Vector3 shipLightPosOne = shipLightOne.transform.position;
+            shipLightPosOne = ship.transform.position;
+            shipLightPosOne += shipLightOne.transform.forward * 3;
+            shipLightPosOne.y = oldYPos;
+            shipLightOne.transform.position = shipLightPosOne;
 
-                shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
-                Vector3 shipLightPosTwo = shipLightTwo.transform.position;
-                shipLightPosTwo = ship.transform.position;
-                shipLightPosTwo += shipLightTwo.transform.forward * 3;
-                shipLightPosTwo.y = oldYPos;
-                shipLightTwo.transform.position = shipLightPosTwo;
-
-                //shipLightTwo.transform.Rotate(Vector3.up, 50.0f * rightStick.x * Time.deltaTime);
-                //shipLightTwo.transform.position = ship.transform.position;
-                //shipLightTwo.transform.position += shipLightTwo.transform.forward * 3;
-            }
+            shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+            Vector3 shipLightPosTwo = shipLightTwo.transform.position;
+            shipLightPosTwo = ship.transform.position;
+            shipLightPosTwo += shipLightTwo.transform.forward * 3;
+            shipLightPosTwo.y = oldYPos;
+            shipLightTwo.transform.position = shipLightPosTwo;
         }
 
         ropeOut = ropeJoints.Count > 0 ? true : false;
-        leftStick = FindObjectOfType<Player>().GetRelativeLeftStickDirection();
-
         GameObject hpp = GameObject.Find("HarpoonParent");
-        Vector3 newParentPos = originalParentPos;
-        newParentPos.x += 5 * leftStick.x;
-        newParentPos.z += 5 * leftStick.y;
-        hpp.transform.position = newParentPos;
 
-        //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
-        //hpp.transform.rotation = Quaternion.identity;
-        //hpp.transform.Rotate(Vector3.up, stickAngle + 90);
+        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
+        stickAngle += 45;
+        Debug.Log(leftStick);
+        Debug.Log(stickAngle);
+        hpp.transform.rotation = Quaternion.identity;
+        hpp.transform.Rotate(Vector3.up, stickAngle);
 
         //turret.transform.position = transform.position + new Vector3(leftStick.x, 0,-leftStick.y);
 
@@ -158,7 +148,7 @@ public class RopeScript : MonoBehaviour
             float distToFirstJoint = Vector3.Distance(ropeJoints[0].transform.position, transform.position);
             if (distToFirstJoint < range && !ropeFinished)
             {
-                if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) >= 2.0f)
+                if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) >= 1.0f)
                 {
                     AddRopeSegment(ropeJoints[ropeJoints.Count - 1]);
 
@@ -196,7 +186,6 @@ public class RopeScript : MonoBehaviour
 
                 ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().isKinematic = true;
                 ropeJoints[ropeJoints.Count - 1].transform.position = Vector3.MoveTowards(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position, angProp);
-                Debug.Log(angProp * 0.1f);
 
                 if (Vector3.Distance(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position) < 0.1f)
                 {
@@ -238,7 +227,7 @@ public class RopeScript : MonoBehaviour
         if (ropeSlowed) { return; }
         foreach (var joint in ropeJoints)
         {
-            joint.GetComponent<Rigidbody>().velocity /= 8 * (ropeJoints.Count / 5);
+            joint.GetComponent<Rigidbody>().velocity /= 8 * (ropeJoints.Count / 10);
             //joint.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         ropeSlowed = true;

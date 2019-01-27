@@ -66,7 +66,6 @@ public class Player : MonoBehaviour
 
             case AccessedObject.Nothing:
                 // Run around like a fool
-                Debug.Log(GetRelativeLeftStickDirection().x);
                 GetComponent<CharacterController>().Move(GetRelativeLeftStickDirection() * speed);
                 break;
 

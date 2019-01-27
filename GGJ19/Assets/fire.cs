@@ -53,6 +53,7 @@ public class fire : MonoBehaviour {
 
             left = !left;
 
+            spawnPos.y = 0;
             GameObject proj = Instantiate(projectile, spawnPos, Quaternion.identity);
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
