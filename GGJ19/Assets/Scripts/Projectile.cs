@@ -9,6 +9,8 @@ public class Projectile : MonoBehaviour
     private const float minVelocity = 10.0f;
     Rigidbody rb;
     private float constantSpeed = 0;
+    [HideInInspector] const float explosionForce = 100;
+    [HideInInspector] const float explosionRadius = 5;
 
     private void Awake()
     {
@@ -48,7 +50,12 @@ public class Projectile : MonoBehaviour
 
         }
 
-        Destroy(gameObject, 0.0001f);
+        foreach (var asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
+        {
+            asteroid.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRadius);
+        }
+
+        Destroy(gameObject, 0);
     }
 
 }

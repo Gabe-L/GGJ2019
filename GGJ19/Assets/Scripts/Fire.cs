@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fire : MonoBehaviour {
+public class Fire : MonoBehaviour {
     public float travelSpeed = 10.0f;
 
     [SerializeField] private GameObject projectile;
