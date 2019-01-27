@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
                 break;
 
             case AccessedObject.Harpoon:
+                FindObjectOfType<RopeScript>().UpdateInput();
                 break;
 
             case AccessedObject.GunTurret:
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour
     }
 
     // Get the direction of the analog stick relative to the camera
-    private Vector3 GetRelativeLeftStickDirection()
+    public Vector3 GetRelativeLeftStickDirection()
     {
         Vector2 leftStick = new Vector2(Input.GetAxis("LeftStickXAxis"), Input.GetAxis("LeftStickYAxis"));
 

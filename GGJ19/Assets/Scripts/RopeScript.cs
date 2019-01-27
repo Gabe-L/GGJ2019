@@ -27,12 +27,21 @@ public class RopeScript : MonoBehaviour
     private float prevAngle = 0.0f;
     private GameObject turret;
     private GameObject point;
+    private Vector3 originalParentPos;
 
     Vector3 fireDirection;
 
     bool cross = false;
     bool square = false;
     bool circle = false;
+
+    Vector3 debugPoint = Vector3.zero;
+
+    private void OnDrawGizmos()
+    {
+        var spaceshipCenter = FindObjectOfType<Spaceship>().transform.position;
+        Gizmos.DrawLine(spaceshipCenter, spaceshipCenter + (debugPoint * 10));
+    }
 
     // Use this for initialization
     void Start()
@@ -72,6 +81,8 @@ public class RopeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        debugPoint = FindObjectOfType<Player>().GetRelativeLeftStickDirection();
+
         if (circle && rightStick.magnitude > 0.2f)
         {
             //if ((shipLightOne.transform.rotation.y < 40.0f && rightStick.x > 0) || (shipLightOne.transform.rotation.y > -40.0f && rightStick.x < 0))
@@ -101,11 +112,17 @@ public class RopeScript : MonoBehaviour
         }
 
         ropeOut = ropeJoints.Count > 0 ? true : false;
+        leftStick = FindObjectOfType<Player>().GetRelativeLeftStickDirection();
 
-        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
         GameObject hpp = GameObject.Find("HarpoonParent");
-        hpp.transform.rotation = Quaternion.identity;
-        hpp.transform.Rotate(Vector3.up, stickAngle + 90);
+        Vector3 newParentPos = originalParentPos;
+        newParentPos.x += 5 * leftStick.x;
+        newParentPos.z += 5 * leftStick.y;
+        hpp.transform.position = newParentPos;
+
+        //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
+        //hpp.transform.rotation = Quaternion.identity;
+        //hpp.transform.Rotate(Vector3.up, stickAngle + 90);
 
         //turret.transform.position = transform.position + new Vector3(leftStick.x, 0,-leftStick.y);
 
