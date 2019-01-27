@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (Input.GetButtonDown("Share"))
+        {
+            spaceship.health = 0;
+        }
+
         // Reset scene
         if (Input.GetButtonDown("Option"))
         {
@@ -201,7 +206,7 @@ public class GameManager : MonoBehaviour
         // Reset game
 
         GameObject.Find("gameOverImage").GetComponent<RawImage>().enabled = true;
-        GameObject.Find("gameOverText").GetComponent<Text>().enabled = true;
+        GameObject.Find("gameOverImage 2").GetComponent<RawImage>().enabled = true;
 
         Debug.Log("YOU'RE DEAD");
     }

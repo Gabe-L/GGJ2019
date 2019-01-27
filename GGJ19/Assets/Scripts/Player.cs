@@ -31,6 +31,20 @@ public class Player : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         originalY = transform.position.y;
         spaceship = FindObjectOfType<Spaceship>();
+
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
+        {
+            transform.position += (Vector3.down * hit.distance);
+            Vector3 tempPos = transform.position;
+
+            GameObject player = GameObject.Find("Player");
+            tempPos.y += player.GetComponent<SphereCollider>().radius * player.transform.localScale.y;
+
+            transform.position = tempPos;
+        }
     }
 
     // Use this for initialization
