@@ -2,33 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fire : MonoBehaviour {
+public class fire : MonoBehaviour {
     public float travelSpeed = 10.0f;
-    public AudioSource SFXSource;
-
+  
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform leftBarrel;
-    [SerializeField] private Transform leftBarrelEnd;
     [SerializeField] private Transform rightBarrel;
-    [SerializeField] private Transform rightBarrelEnd;
 
-    private Vector2 inputStick;
+    private Vector2 leftStick;
     private float fireTimer = 1.0f;
-    bool L1 = false;
+    bool cross = false;
     bool left = false;
     Vector3 neutralPosition;
     //private GameObject muzzleLight;
     const float projectileLifeTime = 5;
 
-    private void Awake()
-    {
-        leftBarrelEnd = GameObject.Find("Barrel 1 Spawn Position").transform;
-        rightBarrelEnd = GameObject.Find("Barrel 2 Spawn Position").transform;
-        SFXSource = Camera.main.GetComponent<AudioSource>();
-    }
-
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
         neutralPosition = transform.position;
         //muzzleLight = GameObject.Find("Muzzle Light");
         //muzzleLight.GetComponent<Light>().intensity = 0;
@@ -36,11 +26,12 @@ public class Fire : MonoBehaviour {
 	
     public void UpdateInput()
     {
-        inputStick.x = Input.GetAxis("RightStickXAxis");
-        inputStick.y = Input.GetAxis("RightStickYAxis");
+        leftStick.x = Input.GetAxis("LeftStickXAxis");
+        leftStick.y = Input.GetAxis("LeftStickYAxis");
 
 
-        L1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
+        cross = Input.GetButtonDown("Cross");
+
     }
 
 	// Update is called once per frame
@@ -49,21 +40,19 @@ public class Fire : MonoBehaviour {
 
         //transform.rotation = Quaternion.identity;
         //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
-        transform.Rotate(Vector3.up, -40.0f * inputStick.x * Time.deltaTime);
+        transform.Rotate(Vector3.up, -40.0f * leftStick.x * Time.deltaTime);
 
-        if (L1 && fireTimer <= 0.0f)
+        if (cross && fireTimer <= 0.0f)
         {
-            SFXSource.Play();
-
             Vector3 spawnPos;
             if (left)
             {
-                spawnPos = leftBarrelEnd.position;
+                spawnPos = leftBarrel.position;
                 leftBarrel.GetComponent<Animator>().Play("GunBarrel - Left");
             }
             else
             {
-                spawnPos = rightBarrelEnd.position;
+                spawnPos = rightBarrel.position;
                 rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
             }
             //muzzleLight.GetComponent<Animator>().Play("Muzzle Flash");
