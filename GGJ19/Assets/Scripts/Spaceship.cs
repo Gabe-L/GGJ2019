@@ -6,6 +6,8 @@ public class Spaceship : MonoBehaviour
 {
 
     [Range(0, 360)] public float turningSpeed = 200.0f;
+    [HideInInspector] public float maxHealth = 100.0f;
+    [HideInInspector] public float health = 100.0f;
 
     // Use this for initialization
     private void Start()
@@ -21,6 +23,7 @@ public class Spaceship : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        health -= 1;
         if (collision.gameObject.GetComponent<CharacterJoint>())
         {
             //FindObjectOfType<RopeScript>().RemoveJoint();

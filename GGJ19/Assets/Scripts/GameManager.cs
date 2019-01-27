@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     const int mediumAsteroidChance = bigAsteroidChance + 50;
     const int smallAsteroidChance = mediumAsteroidChance + 100;
     [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
+    GameObject UICanvas;
+    RawImage shipHealthBar;
 
     private void Awake()
     {
@@ -22,6 +25,8 @@ public class GameManager : MonoBehaviour
         asteroidMediumPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Medium");
         asteroidSmallPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Small");
         spaceship = FindObjectOfType<Spaceship>();
+        UICanvas = GameObject.Find("Canvas");
+        shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
     }
 
     // Use this for initialization
@@ -76,6 +81,21 @@ public class GameManager : MonoBehaviour
                 player.gameObject.transform.position = newPlayerPosition; 
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        float healthProp = FindObjectOfType<Spaceship>().health / FindObjectOfType<Spaceship>().maxHealth;
+        shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
+        //Rect tempHealthRect = shipHealthBar.rectTransform.rect;
+        //tempHealthRect.width = 75.0f * healthProp;
+        //shipHealthBar.rectTransform.rect = tempHealthRect;
+
     }
 
     private void SpawnAsteroid(GameObject prefab)
