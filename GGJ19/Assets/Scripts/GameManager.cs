@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [Range(1, 100)] public float asteroidSpawnRadius = 20;
 
     GameObject UICanvas;
-    //RawImage shipHealthBar;
+    RawImage shipHealthBar;
     private void OnDrawGizmos()
     
     {
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         asteroidSmallPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Small");
         spaceship = FindObjectOfType<Spaceship>();
         UICanvas = GameObject.Find("Canvas");
-        //shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
+        shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
     }
 
     // Use this for initialization
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     private void UpdateUI()
     {
         float healthProp = FindObjectOfType<Spaceship>().health / FindObjectOfType<Spaceship>().maxHealth;
-        //shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
+        shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
         //Rect tempHealthRect = shipHealthBar.rectTransform.rect;
         //tempHealthRect.width = 75.0f * healthProp;
         //shipHealthBar.rectTransform.rect = tempHealthRect;
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnAsteroid(GameObject prefab)
     {
+        Debug.Log("Is it running?");
         Vector3 start = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
         Vector3 target = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
         Vector3 direction = (target - start).normalized;
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
 
         asteroidRigidbody.velocity = velocity;
         asteroidRigidbody.angularVelocity = angularVelocity * asteroidRigidbody.mass;
+        Debug.Log("Is it still running?");
     }
 
     private Vector3 CalculatePointOnCircumference(float radius, float angle)
