@@ -49,17 +49,4 @@ public class Collectible : MonoBehaviour
         }
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    var spaceship = collision.gameObject.GetComponent<Spaceship>();
-
-    //    if (spaceship)
-    //    {
-    //        Collect(spaceship);
-    //        Destroy(gameObject);
-
-    //        Debug.Log(amount + " of " + type + " was collected.");
-    //    }
-    //}
-
 }

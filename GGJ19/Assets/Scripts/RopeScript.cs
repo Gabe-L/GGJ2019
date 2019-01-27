@@ -31,7 +31,7 @@ public class RopeScript : MonoBehaviour
 
     Vector3 fireDirection;
 
-    bool cross = false;
+    bool L1orR1 = false;
     bool square = false;
     bool circle = false;
 
@@ -65,7 +65,7 @@ public class RopeScript : MonoBehaviour
 
     public void UpdateInput()
     {
-        cross = Input.GetButtonDown("Cross");
+        L1orR1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
         square = Input.GetButtonDown("Square");
 
         leftStick.x = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Left).x;
@@ -116,7 +116,7 @@ public class RopeScript : MonoBehaviour
         if (!ropeOut)
         {
 
-            if (cross && leftStick.magnitude > 0.2f)
+            if (L1orR1 && leftStick.magnitude > 0.2f)
             {
                 FireRope(-fireDirection);
                 ropeJoints[0].GetComponent<Rigidbody>().AddForce(fireDirection * fireForce, ForceMode.Impulse);
