@@ -176,7 +176,7 @@ public class RopeScript : MonoBehaviour
 
                 prevAngle = rightAngle;
                 angProp *= 20;
-                angProp *= 0.1f;
+                angProp *= 0.2f;
                 angProp = Mathf.Min(angProp, 0.5f);
 
                 //angProp = Mathf.Max(0.5f, angProp * 100);
