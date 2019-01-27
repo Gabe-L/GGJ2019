@@ -10,6 +10,7 @@ public class Spaceship : MonoBehaviour
     [HideInInspector] public float oxygen;                  // slowly consumed by the players (more if they move more)
     [Range(0, 360)] public float turningSpeed = 200.0f;
     [HideInInspector] public float maxHealth = 100.0f;
+    [HideInInspector] public float maxFuel = 100.0f;
 
 
     // Use this for initialization

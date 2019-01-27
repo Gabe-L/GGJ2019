@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     GameObject UICanvas;
     RawImage shipHealthBar;
+    RawImage shipFuelBar;
     private void OnDrawGizmos()
     
     {
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         spaceship = FindObjectOfType<Spaceship>();
         UICanvas = GameObject.Find("Canvas");
         shipHealthBar = GameObject.Find("healthBar").GetComponent<RawImage>();
+        shipFuelBar = GameObject.Find("fuelBar").GetComponent<RawImage>();
     }
 
     // Use this for initialization
@@ -100,10 +102,9 @@ public class GameManager : MonoBehaviour
     {
         float healthProp = FindObjectOfType<Spaceship>().health / FindObjectOfType<Spaceship>().maxHealth;
         shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
-        //Rect tempHealthRect = shipHealthBar.rectTransform.rect;
-        //tempHealthRect.width = 75.0f * healthProp;
-        //shipHealthBar.rectTransform.rect = tempHealthRect;
 
+        float fuelProp = FindObjectOfType<Spaceship>().fuel / FindObjectOfType<Spaceship>().maxFuel;
+        shipFuelBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
     }
 
     private void SpawnAsteroid(GameObject prefab)
