@@ -14,7 +14,7 @@ public class RopeScript : MonoBehaviour
     [SerializeField] private GameObject RopeSegmentPrefab;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private Light shipLightOne;
-    [SerializeField] private Light shipLightTwo;
+    //[SerializeField] private Light shipLightTwo;
     private float timeTrack = 0.0f;
     private bool ropeFinished = false;
     private bool reel = false;
@@ -96,12 +96,12 @@ public class RopeScript : MonoBehaviour
             shipLightPosOne.y = oldYPos;
             shipLightOne.transform.position = shipLightPosOne;
 
-            shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
-            Vector3 shipLightPosTwo = shipLightTwo.transform.position;
-            shipLightPosTwo = ship.transform.position;
-            shipLightPosTwo += shipLightTwo.transform.forward * 3;
-            shipLightPosTwo.y = oldYPos;
-            shipLightTwo.transform.position = shipLightPosTwo;
+            //shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+            //Vector3 shipLightPosTwo = shipLightTwo.transform.position;
+            //shipLightPosTwo = ship.transform.position;
+            //shipLightPosTwo += shipLightTwo.transform.forward * 3;
+            //shipLightPosTwo.y = oldYPos;
+            //shipLightTwo.transform.position = shipLightPosTwo;
         }
 
         ropeOut = ropeJoints.Count > 0 ? true : false;
@@ -109,8 +109,6 @@ public class RopeScript : MonoBehaviour
 
         float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
         stickAngle += 45;
-        Debug.Log(leftStick);
-        Debug.Log(stickAngle);
         hpp.transform.rotation = Quaternion.identity;
         hpp.transform.Rotate(Vector3.up, stickAngle);
 
@@ -203,7 +201,6 @@ public class RopeScript : MonoBehaviour
 
         if (ropeFinished && ropeJoints.Count <= 2 || square)
         {
-            Debug.Log("Trying");
             RemoveJoint();
             RemoveJoint();
         }
