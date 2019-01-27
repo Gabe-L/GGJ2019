@@ -46,11 +46,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetButtonDown("R1"))
-        {
-            Debug.Log("TRIGGER");
-        }
-
         // Reset scene
         if (Input.GetButtonDown("Option"))
         {
@@ -113,7 +108,6 @@ public class GameManager : MonoBehaviour
 
     private void SpawnAsteroid(GameObject prefab)
     {
-        Debug.Log("Is it running?");
         Vector3 start = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
         Vector3 target = CalculatePointOnCircumference(asteroidSpawnRadius, Random.Range(0, 360));
         Vector3 direction = (target - start).normalized;
@@ -138,14 +132,14 @@ public class GameManager : MonoBehaviour
 
         asteroidRigidbody.velocity = velocity;
         asteroidRigidbody.angularVelocity = angularVelocity * asteroidRigidbody.mass;
-        Debug.Log("Is it still running?");
     }
 
     public Vector3 CalculatePointOnCircumference(float radius, float angle)
     {
-        float x = spaceship.transform.position.x + radius * Mathf.Cos(angle);
+
+        float x = transform.position.x + radius * Mathf.Cos(angle);
         float y = 0;
-        float z = spaceship.transform.position.z + radius * Mathf.Sin(angle);
+        float z = transform.position.z + radius * Mathf.Sin(angle);
 
         return new Vector3(x, y, z);
     }
@@ -172,6 +166,9 @@ public class GameManager : MonoBehaviour
         // Slowly fade out the scene
         // Show scores?
         // Reset game
+
+        GameObject.Find("gameOverImage").GetComponent<RawImage>().enabled = true;
+        GameObject.Find("gameOverText").GetComponent<Text>().enabled = true;
 
         Debug.Log("YOU'RE DEAD");
     }
