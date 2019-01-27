@@ -48,9 +48,6 @@ public class Projectile : MonoBehaviour
 
         }
 
-        float intensity = GetComponent<Light>().intensity;
-        float range = 5;
-        GetComponent<Light>().intensity = Random.Range(intensity - range, intensity + range);
         Destroy(gameObject, 0.0001f);
     }
 
