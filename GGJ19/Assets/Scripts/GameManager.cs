@@ -69,9 +69,12 @@ public class GameManager : MonoBehaviour
         Vector3 spaceshipPosition = FindObjectOfType<Spaceship>().transform.position;
         foreach (var player in FindObjectsOfType<Player>())
         {
-            Vector3 newPlayerPosition = spaceshipPosition;
-            newPlayerPosition.y = player.originalY;
-            player.gameObject.transform.position = newPlayerPosition;
+            if (Vector3.Distance(spaceship.transform.position, player.transform.position) > 3)
+            {
+                Vector3 newPlayerPosition = spaceshipPosition;
+                newPlayerPosition.y = player.originalY;
+                player.gameObject.transform.position = newPlayerPosition; 
+            }
         }
     }
 
