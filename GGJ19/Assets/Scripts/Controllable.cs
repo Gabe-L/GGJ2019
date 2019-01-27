@@ -10,14 +10,14 @@ public class Controllable : MonoBehaviour {
 
     private void Awake()
     {
-        activeMaterial = Resources.Load<Material>("Material/Active Material");
-        inactiveMaterial = Resources.Load<Material>("Material/Inactive Material");
+        activeMaterial = Resources.Load<Material>("Materials/Active Material");
+        inactiveMaterial = Resources.Load<Material>("Materials/Inactive Material");
     }
 
     // Use this for initialization
     private void Start()
     {
-        
+        GetComponent<Renderer>().material = inactiveMaterial;
     }
 
     // Update is called once per frame

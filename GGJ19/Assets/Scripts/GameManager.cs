@@ -5,13 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    GameObject asteroidPrefab;
+    GameObject asteroidLargePrefab;
+    GameObject asteroidMediumPrefab;
+    GameObject asteroidSmallPrefab;
     Spaceship spaceship;
 
+    const float maxAsteroidCount = 4;
+    const int bigAsteroidChance = 20;
+    const int mediumAsteroidChance = bigAsteroidChance + 50;
+    const int smallAsteroidChance = mediumAsteroidChance + 100;
+    [Range(0, 100)] public int asteroidSpawnChancePercent = 3;
 
     private void Awake()
     {
-        asteroidPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Large");
+        asteroidLargePrefab = Resources.Load<GameObject>("Prefabs/Asteroid Large");
+        asteroidMediumPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Medium");
+        asteroidSmallPrefab = Resources.Load<GameObject>("Prefabs/Asteroid Small");
         spaceship = FindObjectOfType<Spaceship>();
     }
 
@@ -31,11 +40,20 @@ public class GameManager : MonoBehaviour
         }
 
         // Spawn asteroid
-        const float maxAsteroidCount = 4;
+        int maxPercent = (smallAsteroidChance / asteroidSpawnChancePercent) * 100;
+        int randomNumber = Random.Range(0, maxPercent);
         if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount && 
-            Random.Range(0, 200) < 3)
+            randomNumber < bigAsteroidChance)
         {
-            SpawnAsteroid();
+            SpawnAsteroid(asteroidLargePrefab);
+        }
+        else if (randomNumber < mediumAsteroidChance)
+        {
+            SpawnAsteroid(asteroidMediumPrefab);
+        }
+        else if (randomNumber < smallAsteroidChance)
+        {
+            SpawnAsteroid(asteroidSmallPrefab);
         }
 
         // Remove asteroids out of view
@@ -48,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SpawnAsteroid()
+    private void SpawnAsteroid(GameObject prefab)
     {
         Vector3 start = RandomPosition(16, 20);
         Vector3 target = RandomPosition(3, 15);
@@ -62,7 +80,7 @@ public class GameManager : MonoBehaviour
             avRange = Random.Range(-avRange, avRange)
         );
 
-        var asteroid = Instantiate<GameObject>(asteroidPrefab, start, Quaternion.identity);
+        var asteroid = Instantiate<GameObject>(prefab, start, Quaternion.identity);
         var asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
 
         asteroidRigidbody.velocity = velocity;
