@@ -5,12 +5,17 @@ using UnityEngine;
 public class Spaceship : MonoBehaviour
 {
 
+    [HideInInspector] public float health;                  // damaged by asteroids
+    [HideInInspector] public float fuel;                    // slowly consumed when moving/rotating the ship
+    [HideInInspector] public float oxygen;                  // slowly consumed by the players (more if they move more)
     [Range(0, 360)] public float turningSpeed = 200.0f;
 
     // Use this for initialization
     private void Start()
     {
-        
+        health = 100;
+        fuel = 100;
+        oxygen = 100;
     }
 
     // Update is called once per frame

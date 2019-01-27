@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         // Spawn asteroid
         int maxPercent = (smallAsteroidChance / asteroidSpawnChancePercent) * 100;
         int randomNumber = Random.Range(0, maxPercent);
-        if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount && 
+        if (GameObject.FindGameObjectsWithTag("Asteroid").Length <= maxAsteroidCount &&
             randomNumber < bigAsteroidChance)
         {
             SpawnAsteroid(asteroidLargePrefab);
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
             {
                 Vector3 newPlayerPosition = spaceshipPosition;
                 newPlayerPosition.y = player.originalY;
-                player.gameObject.transform.position = newPlayerPosition; 
+                player.gameObject.transform.position = newPlayerPosition;
             }
         }
     }
@@ -113,6 +113,14 @@ public class GameManager : MonoBehaviour
         output.z = radius * Mathf.Sin(Random.Range(-360, 360));
 
         return output;
+    }
+
+    public void GameOver()
+    {
+        // Stop receiving player input
+        // Slowly fade out the scene
+        // Show scores?
+        // Reset game
     }
 
 }
