@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
                 break;
 
             case AccessedObject.GunTurret:
+                FindObjectOfType<fire>().UpdateInput();
                 break;
 
             case AccessedObject.Nothing:

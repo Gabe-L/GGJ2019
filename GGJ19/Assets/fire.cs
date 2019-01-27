@@ -13,15 +13,18 @@ public class fire : MonoBehaviour {
     private float fireTimer = 1.0f;
     bool cross = false;
     bool left = false;
+    Vector3 neutralPosition;
 
 	// Use this for initialization
 	void Start () {
+        neutralPosition = transform.position;
 	}
 	
     public void UpdateInput()
     {
         leftStick.x = Input.GetAxis("LeftStickXAxis");
         leftStick.y = Input.GetAxis("LeftStickYAxis");
+
 
         cross = Input.GetButtonDown("Cross");
     }
@@ -37,17 +40,29 @@ public class fire : MonoBehaviour {
         if (cross && leftStick.magnitude > 0.2f && fireTimer <= 0.0f)
         {
             Vector3 spawnPos;
-            spawnPos = left ? leftBarrel.position : rightBarrel.position;
-            left = left ? false : true;
+            if (left)
+            {
+                spawnPos = leftBarrel.position;
+                leftBarrel.GetComponent<Animator>().Play("GunBarrel - Left");
+            }
+            else
+            {
+                spawnPos = rightBarrel.position;
+                rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
+            }
+
+            left = !left;
 
             GameObject proj = Instantiate(projectile, spawnPos, Quaternion.identity);
             proj.GetComponent<Rigidbody>().AddForce(-transform.forward * travelSpeed, ForceMode.Impulse);
             fireTimer = 1.0f;
+
+            //var lsf = new Vector3(leftStick.x, 0, leftStick.y);
+            //transform.position = neutralPosition + new Vector3(leftStick.x, 0, leftStick.y) * 5;
+            //transform.forward = lsf.magnitude > 0.2f ? lsf.normalized : transform.forward;
         }
+
+        transform.position = neutralPosition - transform.forward * 3;
+
 	}
-
-    //IEnumerator Recoil(Transform Barrel)
-    //{
-
-    //}
 }
