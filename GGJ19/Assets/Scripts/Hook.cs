@@ -14,13 +14,13 @@ public class Hook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (hooked)
-        {
-            if (!GetComponent<FixedJoint>().connectedBody)
-            {
-                GetComponent<FixedJoint>().connectedBody = hookedBody;
-            }
-        }
+		//if (hooked)
+  //      {
+  //          if (!GetComponent<FixedJoint>().connectedBody)
+  //          {
+  //              GetComponent<FixedJoint>().connectedBody = hookedBody;
+  //          }
+  //      }
 	}
 
     private void OnCollisionEnter(Collision collision)
