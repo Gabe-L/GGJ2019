@@ -7,7 +7,9 @@ public class Fire : MonoBehaviour {
 
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform leftBarrel;
+    [SerializeField] private Transform leftBarrelEnd;
     [SerializeField] private Transform rightBarrel;
+    [SerializeField] private Transform rightBarrelEnd;
 
     private Vector2 leftStick;
     private float fireTimer = 1.0f;
@@ -17,8 +19,14 @@ public class Fire : MonoBehaviour {
     //private GameObject muzzleLight;
     const float projectileLifeTime = 5;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        leftBarrelEnd = GameObject.Find("Barrel 1 Spawn Position").transform;
+        rightBarrelEnd = GameObject.Find("Barrel 2 Spawn Position").transform;
+    }
+
+    // Use this for initialization
+    void Start () {
         neutralPosition = transform.position;
         //muzzleLight = GameObject.Find("Muzzle Light");
         //muzzleLight.GetComponent<Light>().intensity = 0;
@@ -46,12 +54,12 @@ public class Fire : MonoBehaviour {
             Vector3 spawnPos;
             if (left)
             {
-                spawnPos = leftBarrel.position;
+                spawnPos = leftBarrelEnd.position;
                 leftBarrel.GetComponent<Animator>().Play("GunBarrel - Left");
             }
             else
             {
-                spawnPos = rightBarrel.position;
+                spawnPos = rightBarrelEnd.position;
                 rightBarrel.GetComponent<Animator>().Play("GunBarrel - Right");
             }
             //muzzleLight.GetComponent<Animator>().Play("Muzzle Flash");

@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class LightFlicker : MonoBehaviour {
 
-    const float minIntensity = 19.0f;
-    const float maxIntensity = 21.0f;
+    private float minIntensity;
+    private float maxIntensity;
+
+    private void Awake()
+    {
+        minIntensity = GetComponent<Light>().intensity - 1;
+        maxIntensity = GetComponent<Light>().intensity + 1;
+    }
 
     // Use this for initialization
     void Start () {
