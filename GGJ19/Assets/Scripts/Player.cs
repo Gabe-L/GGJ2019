@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (FindObjectOfType<Spaceship>().health <= 0) { return; }
         // Exit controlled object
         if (Input.GetButtonDown("Triangle"))
         {
@@ -87,12 +88,12 @@ public class Player : MonoBehaviour
         const float radius = 5;
         var spotLight = GameObject.Find("Spot Light Base");
 
-        float angle = Vector3.Angle(Vector3.right, GetRelativeStickDirection(Stick.Left).normalized);
+        float angle = Vector3.Angle(Vector3.right, GetRelativeStickDirection(Stick.Right).normalized);
 
         Vector3 newPosition = gameManager.CalculatePointOnCircumference(radius, angle);
 
-        const float rotationSpeed = -200.0f;
-        spotLight.transform.Rotate(Vector3.up, rotationSpeed * GetRelativeStickDirection(Stick.Left).x * Time.deltaTime);
+        const float rotationSpeed = 200.0f;
+        spotLight.transform.Rotate(Vector3.up, rotationSpeed * GetRelativeStickDirection(Stick.Right).x * Time.deltaTime);
     }
 
     // Get the direction of the analog stick relative to the camera

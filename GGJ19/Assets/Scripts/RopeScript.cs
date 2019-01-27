@@ -14,7 +14,7 @@ public class RopeScript : MonoBehaviour
     [SerializeField] private GameObject RopeSegmentPrefab;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private Light shipLightOne;
-    //[SerializeField] private Light shipLightTwo;
+    [SerializeField] private Light shipLightTwo;
     private float timeTrack = 0.0f;
     private bool ropeFinished = false;
     private bool reel = false;
@@ -31,7 +31,7 @@ public class RopeScript : MonoBehaviour
 
     Vector3 fireDirection;
 
-    bool R1 = false;
+    bool cross = false;
     bool square = false;
     bool circle = false;
 
@@ -58,18 +58,18 @@ public class RopeScript : MonoBehaviour
         turret.transform.parent = GameObject.Find("RopeManager").transform;
 
         point = Instantiate(pointPrefab);
-        
+
         point.transform.position = Vector3.zero;
         point.name = "Point";
     }
 
     public void UpdateInput()
     {
-        R1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
+        cross = Input.GetButtonDown("Cross");
         square = Input.GetButtonDown("Square");
 
-        rightStick.x = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right).x;
-        rightStick.y = -FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right).z;
+        leftStick.x = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Left).x;
+        leftStick.y = -FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Left).z;
 
         rightStick.x = Input.GetAxis("RightStickXAxis");
         rightStick.y = Input.GetAxis("RightStickYAxis");
@@ -81,7 +81,6 @@ public class RopeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debugPoint = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right);
 
         if (circle && rightStick.magnitude > 0.2f)
         {
@@ -107,8 +106,10 @@ public class RopeScript : MonoBehaviour
         ropeOut = ropeJoints.Count > 0 ? true : false;
         GameObject hpp = GameObject.Find("HarpoonParent");
 
-        float stickAngle = Mathf.Atan2(rightStick.y, rightStick.x) * Mathf.Rad2Deg;
+        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
         stickAngle += 45;
+        Debug.Log(leftStick);
+        Debug.Log(stickAngle);
         hpp.transform.rotation = Quaternion.identity;
         hpp.transform.Rotate(Vector3.up, stickAngle);
 
@@ -117,19 +118,20 @@ public class RopeScript : MonoBehaviour
         if (!ropeOut)
         {
 
-            if (R1 && rightStick.magnitude > 0.2f)
+            if (cross && leftStick.magnitude > 0.2f)
             {
                 FireRope(-fireDirection);
                 ropeJoints[0].GetComponent<Rigidbody>().AddForce(fireDirection * fireForce, ForceMode.Impulse);
             }
-            fireDirection = new Vector3(rightStick.x, 0, -rightStick.y);
+            fireDirection = new Vector3(leftStick.x, 0, -leftStick.y);
         }
         else
         {
             int track = 0;
 
             point.transform.position = ropeJoints[0].transform.position;
-            if (!ropeJoints[0].GetComponent<FixedJoint>() && ropeJoints.Count > 1) {
+            if (!ropeJoints[0].GetComponent<FixedJoint>() && ropeJoints.Count > 1)
+            {
                 point.transform.forward = ((ropeJoints[0].transform.position - ropeJoints[1].transform.position).normalized).normalized;
             }
 
@@ -176,7 +178,7 @@ public class RopeScript : MonoBehaviour
 
                 prevAngle = rightAngle;
                 angProp *= 20;
-                angProp *= 0.2f;
+                angProp *= 0.1f;
                 angProp = Mathf.Min(angProp, 0.5f);
 
                 //angProp = Mathf.Max(0.5f, angProp * 100);
@@ -201,6 +203,7 @@ public class RopeScript : MonoBehaviour
 
         if (ropeFinished && ropeJoints.Count <= 2 || square)
         {
+            Debug.Log("Trying");
             RemoveJoint();
             RemoveJoint();
         }

@@ -52,7 +52,6 @@ public class Spaceship : MonoBehaviour
             var aRB = collision.gameObject.GetComponent<Rigidbody>();
 
             health -= aRB.mass * aRB.velocity.magnitude;
-            Debug.Log("Colliding with asteroid");
         }
     }
 
