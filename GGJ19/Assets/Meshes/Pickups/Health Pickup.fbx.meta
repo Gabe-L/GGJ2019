@@ -8,7 +8,7 @@ ModelImporter:
     2100000: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Health_Pickup
+    4300000: pCube3
   externalObjects: {}
   materials:
     importMaterials: 1
