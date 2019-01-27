@@ -36,11 +36,11 @@ public class Collectible : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        var spaceship = collision.gameObject.GetComponent<Spaceship>();
+        var spaceship = other.gameObject.GetComponent<Spaceship>();
 
-        if (spaceship)
+        if (other.gameObject == GameObject.Find("Spaceship"))
         {
             Collect(spaceship);
             Destroy(gameObject);
@@ -48,5 +48,18 @@ public class Collectible : MonoBehaviour
             Debug.Log(amount + " of " + type + " was collected.");
         }
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    var spaceship = collision.gameObject.GetComponent<Spaceship>();
+
+    //    if (spaceship)
+    //    {
+    //        Collect(spaceship);
+    //        Destroy(gameObject);
+
+    //        Debug.Log(amount + " of " + type + " was collected.");
+    //    }
+    //}
 
 }

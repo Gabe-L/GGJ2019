@@ -108,8 +108,6 @@ public class RopeScript : MonoBehaviour
 
         float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
         stickAngle += 45;
-        Debug.Log(leftStick);
-        Debug.Log(stickAngle);
         hpp.transform.rotation = Quaternion.identity;
         hpp.transform.Rotate(Vector3.up, stickAngle);
 
