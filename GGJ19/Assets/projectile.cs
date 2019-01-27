@@ -34,12 +34,7 @@ public class Projectile : MonoBehaviour
             Vector3 dir = (transform.position - collision.transform.position).normalized;
             Vector3 vel = rb.velocity;
 
-            // ---------------------------------------------------------------------------
-
-            
-            //ParticleSystem debrisParticleSystem = Instantiate(hitSparksPrefab, transform.position, transform.rotation * Quaternion_180);
             ParticleSystem hitSparks = Instantiate(hitSparksPrefab, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0, 180, 0)));
-
 
             Destroy(hitSparks, hitSparks.startLifetime);
             Destroy(gameObject, 0);

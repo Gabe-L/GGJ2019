@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198887356561477810}
   - component: {fileID: 199121313894320156}
   m_Layer: 0
-  m_Name: VfxHitSparks
+  m_Name: VfxHitSparks OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

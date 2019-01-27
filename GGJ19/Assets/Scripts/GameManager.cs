@@ -121,6 +121,8 @@ public class GameManager : MonoBehaviour
         // Slowly fade out the scene
         // Show scores?
         // Reset game
+
+        Debug.Log("YOU'RE DEAD");
     }
 
 }
