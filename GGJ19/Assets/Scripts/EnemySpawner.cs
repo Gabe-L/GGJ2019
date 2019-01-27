@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 
-public class Enemies : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
 
-    public GameObject Enemy;
+    public GameObject enemyPrefab;
     public float repeatTime = 10f;
     public float SpawnTimer = 0f;
+
+    private void Awake()
+    {
+        enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+    }
 
     private void Update()
     {
         SpawnTimer += Time.deltaTime;
         if (SpawnTimer > repeatTime)
         {
-            Instantiate(Enemy, transform.position, Quaternion.identity);
+            Instantiate(enemyPrefab, transform.position, Quaternion.identity);
             SpawnTimer = 0f;
             repeatTime = Random.Range(10f, 30f);
         }
@@ -26,7 +31,7 @@ public class Enemies : MonoBehaviour
     void Spawn()
     {
         
-        Instantiate(Enemy, transform.position, Quaternion.identity);
+        Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         transform.rotation = Quaternion.Euler(new Vector3(0, -90, -90));
         Debug.Log("Enemy has spawned");
 
