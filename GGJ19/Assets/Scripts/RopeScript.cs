@@ -13,16 +13,15 @@ public class RopeScript : MonoBehaviour
     public List<GameObject> ropeJoints;
     [SerializeField] private GameObject RopeSegmentPrefab;
     [SerializeField] private GameObject pointPrefab;
-    [SerializeField] private Light shipLightOne;
-    [SerializeField] private Light shipLightTwo;
+    [SerializeField] private Light shipLight;
     private float timeTrack = 0.0f;
     private bool ropeFinished = false;
-    private bool reel = false;
+    [HideInInspector] public bool reel = false;
     private float reelSpeed = 0.0f;
 
     private Vector2 leftStick;
     private Vector2 rightStick;
-    private bool ropeOut = false;
+    [HideInInspector] public bool ropeOut = false;
     private bool ropeSlowed = false;
     private float prevAngle = 0.0f;
     private GameObject turret;
@@ -82,26 +81,19 @@ public class RopeScript : MonoBehaviour
     void Update()
     {
 
-        if (circle && rightStick.magnitude > 0.2f)
-        {
-            GameObject ship = GameObject.Find("Spaceship");
+        //if (circle && rightStick.magnitude > 0.2f)
+        //{
+        //    GameObject ship = GameObject.Find("Spaceship");
 
-            float oldYPos = shipLightOne.transform.position.y;
+        //    float oldYPos = shipLight.transform.position.y;
 
-            shipLightOne.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
-            Vector3 shipLightPosOne = shipLightOne.transform.position;
-            shipLightPosOne = ship.transform.position;
-            shipLightPosOne += shipLightOne.transform.forward * 3;
-            shipLightPosOne.y = oldYPos;
-            shipLightOne.transform.position = shipLightPosOne;
-
-            //shipLightTwo.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
-            //Vector3 shipLightPosTwo = shipLightTwo.transform.position;
-            //shipLightPosTwo = ship.transform.position;
-            //shipLightPosTwo += shipLightTwo.transform.forward * 3;
-            //shipLightPosTwo.y = oldYPos;
-            //shipLightTwo.transform.position = shipLightPosTwo;
-        }
+        //    shipLight.transform.Rotate(Vector3.up, 70.0f * rightStick.x * Time.deltaTime);
+        //    Vector3 shipLightPosOne = shipLight.transform.position;
+        //    shipLightPosOne = ship.transform.position;
+        //    shipLightPosOne += shipLight.transform.forward * 3;
+        //    shipLightPosOne.y = oldYPos;
+        //    shipLight.transform.position = shipLightPosOne;
+        //}
 
         ropeOut = ropeJoints.Count > 0 ? true : false;
         GameObject hpp = GameObject.Find("HarpoonParent");
@@ -110,8 +102,6 @@ public class RopeScript : MonoBehaviour
         stickAngle += 45;
         hpp.transform.rotation = Quaternion.identity;
         hpp.transform.Rotate(Vector3.up, stickAngle);
-
-        //turret.transform.position = transform.position + new Vector3(leftStick.x, 0,-leftStick.y);
 
         if (!ropeOut)
         {
@@ -157,7 +147,6 @@ public class RopeScript : MonoBehaviour
                 }
                 else if (ropeJoints[0].GetComponent<FixedJoint>())
                 {
-                    //ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().isKinematic = true;
                     ropeFinished = true;
                 }
             }
@@ -179,9 +168,6 @@ public class RopeScript : MonoBehaviour
                 angProp *= 0.1f;
                 angProp = Mathf.Min(angProp, 0.5f);
 
-                //angProp = Mathf.Max(0.5f, angProp * 100);
-
-
                 ropeJoints[ropeJoints.Count - 1].GetComponent<Rigidbody>().isKinematic = true;
                 ropeJoints[ropeJoints.Count - 1].transform.position = Vector3.MoveTowards(ropeJoints[ropeJoints.Count - 1].transform.position, transform.position, angProp);
 
@@ -191,11 +177,6 @@ public class RopeScript : MonoBehaviour
                 }
             }
 
-            //if (timeTrack >= 1.0f)
-            //{
-            //    AddRopeSegment(ropeJoints[ropeJoints.Count - 1]);
-            //    timeTrack = 0.0f;
-            //}
             timeTrack += Time.deltaTime;
         }
 

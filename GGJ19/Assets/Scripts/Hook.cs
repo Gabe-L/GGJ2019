@@ -14,23 +14,22 @@ public class Hook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//if (hooked)
-  //      {
-  //          if (!GetComponent<FixedJoint>().connectedBody)
-  //          {
-  //              GetComponent<FixedJoint>().connectedBody = hookedBody;
-  //          }
-  //      }
+
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.rigidbody && !FindObjectOfType<RopeScript>().ropeJoints.Contains(collision.gameObject) && !gameObject.GetComponent<FixedJoint>()) {
-            gameObject.AddComponent<FixedJoint>();
-            hookedBody = collision.rigidbody;
-            GetComponent<FixedJoint>().connectedBody = hookedBody;
-            FindObjectOfType<RopeScript>().SlowJoints();
+        if (collision.gameObject.GetComponent<Collectible>())
+        {
+            if (collision.rigidbody && !FindObjectOfType<RopeScript>().ropeJoints.Contains(collision.gameObject) && !gameObject.GetComponent<FixedJoint>())
+            {
+                gameObject.AddComponent<FixedJoint>();
+                hookedBody = collision.rigidbody;
+                GetComponent<FixedJoint>().connectedBody = hookedBody;
+                FindObjectOfType<RopeScript>().SlowJoints();
+            }
         }
+
     }
 
 }

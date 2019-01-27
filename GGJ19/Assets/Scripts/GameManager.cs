@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         shipHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
 
         float fuelProp = FindObjectOfType<Spaceship>().fuel / FindObjectOfType<Spaceship>().maxFuel;
-        shipFuelBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * healthProp, 15.0f);
+        shipFuelBar.GetComponent<RectTransform>().sizeDelta = new Vector2(75.0f * fuelProp, 15.0f);
     }
 
     private void SpawnAsteroid(GameObject prefab)

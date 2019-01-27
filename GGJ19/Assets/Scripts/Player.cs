@@ -62,13 +62,24 @@ public class Player : MonoBehaviour
         switch (accessing)
         {
             case AccessedObject.SteerAndGun:
-                spaceship.Rotate(Time.deltaTime * Input.GetAxis("LeftStickXAxis"));
+                var input = Input.GetAxis("LeftStickXAxis");
+                const float fuelBurnRate = 5;
+
+                if (input != 0)
+                {
+                    spaceship.Rotate(Time.deltaTime * input);
+                    spaceship.fuel -= Time.deltaTime * fuelBurnRate;
+                }
+
                 FindObjectOfType<Fire>().UpdateInput();
                 break;
 
             case AccessedObject.LightAndHarpoon:
                 FindObjectOfType<RopeScript>().UpdateInput();
-                ControlLight(GetRelativeStickDirection(Stick.Left));
+                if (!FindObjectOfType<RopeScript>().ropeOut)
+                {
+                    ControlLight(GetRelativeStickDirection(Stick.Left)); 
+                }
                 break;
 
             case AccessedObject.Nothing:
