@@ -64,6 +64,15 @@ public class GameManager : MonoBehaviour
                 Destroy(asteroid);
             }
         }
+
+        // Teleport players at the center of the ship when they accidentally leave it
+        Vector3 spaceshipPosition = FindObjectOfType<Spaceship>().transform.position;
+        foreach (var player in FindObjectsOfType<Player>())
+        {
+            Vector3 newPlayerPosition = spaceshipPosition;
+            newPlayerPosition.y = player.originalY;
+            player.gameObject.transform.position = newPlayerPosition;
+        }
     }
 
     private void SpawnAsteroid(GameObject prefab)
