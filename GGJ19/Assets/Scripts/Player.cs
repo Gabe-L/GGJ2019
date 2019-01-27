@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     Spaceship spaceship;
     AccessedObject accessing = AccessedObject.Nothing;
     Controllable controlledObject = null;
+    [HideInInspector] public float originalY;
 
     public float speed = 0.005f;
 
     private void Awake()
     {
+        originalY = transform.position.y;
         spaceship = FindObjectOfType<Spaceship>();
     }
 
