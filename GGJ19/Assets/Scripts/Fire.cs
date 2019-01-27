@@ -14,7 +14,7 @@ public class Fire : MonoBehaviour {
 
     private Vector2 inputStick;
     private float fireTimer = 1.0f;
-    bool L1 = false;
+    bool L1orR1 = false;
     bool left = false;
     Vector3 neutralPosition;
     //private GameObject muzzleLight;
@@ -40,7 +40,7 @@ public class Fire : MonoBehaviour {
         inputStick.y = Input.GetAxis("RightStickYAxis");
 
 
-        L1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
+        L1orR1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
     }
 
 	// Update is called once per frame
@@ -51,7 +51,7 @@ public class Fire : MonoBehaviour {
         //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
         transform.Rotate(Vector3.up, -40.0f * inputStick.x * Time.deltaTime);
 
-        if (L1 && fireTimer <= 0.0f)
+        if (L1orR1 && fireTimer <= 0.0f)
         {
             SFXSource.Play();
 
