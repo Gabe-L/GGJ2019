@@ -12,9 +12,9 @@ public class Fire : MonoBehaviour {
     [SerializeField] private Transform rightBarrel;
     [SerializeField] private Transform rightBarrelEnd;
 
-    private Vector2 leftStick;
+    private Vector2 inputStick;
     private float fireTimer = 1.0f;
-    bool cross = false;
+    bool L1 = false;
     bool left = false;
     Vector3 neutralPosition;
     private GameObject muzzleLight;
@@ -36,12 +36,11 @@ public class Fire : MonoBehaviour {
 	
     public void UpdateInput()
     {
-        leftStick.x = Input.GetAxis("LeftStickXAxis");
-        leftStick.y = Input.GetAxis("LeftStickYAxis");
+        inputStick.x = Input.GetAxis("RightStickXAxis");
+        inputStick.y = Input.GetAxis("RightStickYAxis");
 
 
-        cross = Input.GetButtonDown("Cross");
-
+        L1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
     }
 
 	// Update is called once per frame
@@ -50,9 +49,9 @@ public class Fire : MonoBehaviour {
 
         //transform.rotation = Quaternion.identity;
         //float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
-        transform.Rotate(Vector3.up, -100.0f * leftStick.x * Time.deltaTime);
+        transform.Rotate(Vector3.up, -40.0f * inputStick.x * Time.deltaTime);
 
-        if (cross && fireTimer <= 0.0f)
+        if (L1 && fireTimer <= 0.0f)
         {
             SFXSource.Play();
 

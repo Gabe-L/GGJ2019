@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (Input.GetButtonDown("R1"))
+        {
+            Debug.Log("TRIGGER");
+        }
+
         // Reset scene
         if (Input.GetButtonDown("Option"))
         {
@@ -136,12 +141,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Is it still running?");
     }
 
-    private Vector3 CalculatePointOnCircumference(float radius, float angle)
+    public Vector3 CalculatePointOnCircumference(float radius, float angle)
     {
-
-        float x = transform.position.x + radius * Mathf.Cos(angle);
+        float x = spaceship.transform.position.x + radius * Mathf.Cos(angle);
         float y = 0;
-        float z = transform.position.z + radius * Mathf.Sin(angle);
+        float z = spaceship.transform.position.z + radius * Mathf.Sin(angle);
 
         return new Vector3(x, y, z);
     }

@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    GameManager gameManager;
+
     public enum AccessedObject
     {
-        ControlPanel,
-        Harpoon,
-        GunTurret,
+        SteerAndGun,
+        LightAndHarpoon,
         Nothing
+    }
+
+    public enum Stick
+    {
+        Left,
+        Right
     }
 
     Spaceship spaceship;
@@ -21,6 +28,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         originalY = transform.position.y;
         spaceship = FindObjectOfType<Spaceship>();
     }
@@ -52,21 +60,19 @@ public class Player : MonoBehaviour
 
         switch (accessing)
         {
-            case AccessedObject.ControlPanel:
+            case AccessedObject.SteerAndGun:
                 spaceship.Rotate(Time.deltaTime * Input.GetAxis("LeftStickXAxis"));
-                break;
-
-            case AccessedObject.Harpoon:
-                FindObjectOfType<RopeScript>().UpdateInput();
-                break;
-
-            case AccessedObject.GunTurret:
                 FindObjectOfType<Fire>().UpdateInput();
+                break;
+
+            case AccessedObject.LightAndHarpoon:
+                FindObjectOfType<RopeScript>().UpdateInput();
+                ControlLight(GetRelativeStickDirection(Stick.Left));
                 break;
 
             case AccessedObject.Nothing:
                 // Run around like a fool
-                GetComponent<CharacterController>().Move(GetRelativeLeftStickDirection() * speed);
+                GetComponent<CharacterController>().Move(GetRelativeStickDirection(Stick.Left) * speed);
                 break;
 
             default:
@@ -76,10 +82,38 @@ public class Player : MonoBehaviour
 
     }
 
-    // Get the direction of the analog stick relative to the camera
-    public Vector3 GetRelativeLeftStickDirection()
+    private void ControlLight(Vector3 direction)
     {
-        Vector2 leftStick = new Vector2(Input.GetAxis("LeftStickXAxis"), Input.GetAxis("LeftStickYAxis"));
+        const float radius = 5;
+        var spotLight = GameObject.Find("Spot Light Base");
+
+        float angle = Vector3.Angle(Vector3.right, GetRelativeStickDirection(Stick.Left).normalized);
+
+        Vector3 newPosition = gameManager.CalculatePointOnCircumference(radius, angle);
+
+        const float rotationSpeed = -200.0f;
+        spotLight.transform.Rotate(Vector3.up, rotationSpeed * GetRelativeStickDirection(Stick.Left).x * Time.deltaTime);
+    }
+
+    // Get the direction of the analog stick relative to the camera
+    public Vector3 GetRelativeStickDirection(Stick stick)
+    {
+        Vector2 inputStick;
+
+        switch (stick)
+        {
+            case Stick.Left:
+                inputStick = new Vector2(Input.GetAxis("LeftStickXAxis"), Input.GetAxis("LeftStickYAxis"));
+                break;
+
+            case Stick.Right:
+                inputStick = new Vector2(Input.GetAxis("RightStickXAxis"), Input.GetAxis("RightStickYAxis"));
+                break;
+
+            default:
+                return Vector3.zero;
+        }
+
 
         // Get camera forward and right unit vectors
         Vector3 forward = Camera.main.transform.forward;
@@ -90,7 +124,7 @@ public class Player : MonoBehaviour
         right.Normalize();
 
         // Sync the pulling direction to the view angle
-        return -((forward * leftStick.y) + (right * -leftStick.x)).normalized;
+        return -((forward * inputStick.y) + (right * -inputStick.x)).normalized;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -112,15 +146,11 @@ public class Player : MonoBehaviour
 
                 if (other.name == "Control Panel")
                 {
-                    accessing = AccessedObject.ControlPanel;
+                    accessing = AccessedObject.SteerAndGun;
                 }
                 else if (other.name == "Harpoon")
                 {
-                    accessing = AccessedObject.Harpoon;
-                }
-                else if (other.name == "Gun Turret")
-                {
-                    accessing = AccessedObject.GunTurret;
+                    accessing = AccessedObject.LightAndHarpoon;
                 }
 
                 Debug.Log(name + " gained access to the " + this.controlledObject.name);

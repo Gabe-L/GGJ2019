@@ -31,7 +31,7 @@ public class RopeScript : MonoBehaviour
 
     Vector3 fireDirection;
 
-    bool cross = false;
+    bool R1 = false;
     bool square = false;
     bool circle = false;
 
@@ -65,11 +65,11 @@ public class RopeScript : MonoBehaviour
 
     public void UpdateInput()
     {
-        cross = Input.GetButtonDown("Cross");
+        R1 = Input.GetButtonDown("L1") || Input.GetButtonDown("R1");
         square = Input.GetButtonDown("Square");
 
-        leftStick.x = FindObjectOfType<Player>().GetRelativeLeftStickDirection().x;
-        leftStick.y = -FindObjectOfType<Player>().GetRelativeLeftStickDirection().z;
+        rightStick.x = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right).x;
+        rightStick.y = -FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right).z;
 
         rightStick.x = Input.GetAxis("RightStickXAxis");
         rightStick.y = Input.GetAxis("RightStickYAxis");
@@ -81,7 +81,7 @@ public class RopeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debugPoint = FindObjectOfType<Player>().GetRelativeLeftStickDirection();
+        debugPoint = FindObjectOfType<Player>().GetRelativeStickDirection(Player.Stick.Right);
 
         if (circle && rightStick.magnitude > 0.2f)
         {
@@ -107,7 +107,7 @@ public class RopeScript : MonoBehaviour
         ropeOut = ropeJoints.Count > 0 ? true : false;
         GameObject hpp = GameObject.Find("HarpoonParent");
 
-        float stickAngle = Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg;
+        float stickAngle = Mathf.Atan2(rightStick.y, rightStick.x) * Mathf.Rad2Deg;
         stickAngle += 45;
         hpp.transform.rotation = Quaternion.identity;
         hpp.transform.Rotate(Vector3.up, stickAngle);
@@ -117,12 +117,12 @@ public class RopeScript : MonoBehaviour
         if (!ropeOut)
         {
 
-            if (cross && leftStick.magnitude > 0.2f)
+            if (R1 && rightStick.magnitude > 0.2f)
             {
                 FireRope(-fireDirection);
                 ropeJoints[0].GetComponent<Rigidbody>().AddForce(fireDirection * fireForce, ForceMode.Impulse);
             }
-            fireDirection = new Vector3(leftStick.x, 0, -leftStick.y);
+            fireDirection = new Vector3(rightStick.x, 0, -rightStick.y);
         }
         else
         {
